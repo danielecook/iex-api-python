@@ -1,7 +1,10 @@
 import pandas as pd
 import requests
+import re
 import datetime
-import arrow
+from iex.utils import (parse_date,
+                       timestamp_to_datetime,
+                       timestamp_to_isoformat)
 
 
 BASE_URL = "https://api.iextrading.com/1.0"
@@ -11,6 +14,13 @@ CHART_RANGES = ['5y', '2y', '1y',
                 'dynamic']
 DIVIDEND_RANGES = ['5y', '2y', '1y',
                    'ytd', '6m', '3m', '1m']
+DATE_FIELDS = ['openTime',
+               'closeTime',
+               'latestUpdate',
+               'iexLastUpdated',
+               'delayedPriceTime']
+
+
 
 
 class stock:
@@ -19,8 +29,7 @@ class stock:
         self.symbol = symbol.upper()
 
     def _get(self, url):
-        request_url = BASE_URL + '/stock/' + url
-        print(request_url)
+        request_url =f"{BASE_URL}/stock/{url}"
         response = requests.get(request_url)
         if response.status_code != 200:
             raise Exception(f"{response.status_code}: {response.content.decode('utf-8')}")
@@ -35,14 +44,15 @@ class stock:
                 range - what range of data to retrieve. The variable 'CHART_RANGES'
                         has possible values in addition to a date.
         """
-        if range not in CHART_RANGES and type(range) not in [int, datetime.datetime]:
+        date_match = re.match('[0-9]{8}', str(range))
+        if range not in CHART_RANGES and type(range) not in [int, datetime.datetime] and not date_match:
             err_msg = f"Invalid chart type '{range}'. Valid chart types are {', '.join(CHART_RANGES)}, YYYYMMDD (int), datetime"
             raise ValueError(err_msg)
 
         if type(range) == int:
             url = f"{self.symbol}/chart/date/{range}"
-        elif type(range) == datetime.datetime:
-            range = arrow.get(range).strftime("%Y%m%d")
+        elif parse_date(range):
+            range = parse_date(range)
             url = f"{self.symbol}/chart/date/{range}"
         else:
             url = f"{self.symbol}/chart/{range}"
@@ -58,17 +68,15 @@ class stock:
 
     def delayed_quote(self):
         dquote = self._get(f"{self.symbol}/delayed-quote")
-        dquote['delayedPriceTime'] = arrow.get(
-            dquote['delayedPriceTime'] / 1000.0).datetime
-        dquote['processedTime'] = arrow.get(
-            dquote['processedTime'] / 1000.0).datetime
+        dquote['delayedPriceTime'] = timestamp_to_datetime(dquote['delayedPriceTime'])
+        dquote['processedTime'] = timestamp_to_datetime(dquote['processedTime'])
         return dquote
 
     def dividends(self, range='1m'):
         """
             Args:
-                range - what range of data to retrieve. The variable 'DIVIDEND_RANGES'
-                        has possible values in addition to a date.
+                range - what range of data to retrieve. The variable
+                        'DIVIDEND_RANGES' has possible values in addition to a date.
         """
         DIVIDEND_RANGES
         if range not in CHART_RANGES and type(range) not in [int, datetime.datetime]:
@@ -103,9 +111,11 @@ class stock:
     def stats(self):
         return self._get(f"{self.symbol}/stats")
 
-    @property
-    def peers(self):
-        return [stock(x) for x in self._get(f"/stock/{self.symbol}/peers")]
+    def peers(self, as_string=False):
+        if as_string:
+            return [x for x in self._get(f"{self.symbol}/peers")]
+        else:
+            return [stock(x) for x in self._get(f"{self.symbol}/peers")]
 
     def __repr__(self):
         return f"<stock:{self.symbol}>"
@@ -117,32 +127,34 @@ class batch:
         from multiple stocks.
     """
 
-    def __init__(self, symbols, format='dataframe'):
+    def __init__(self, symbols, date_format='timestamp', output_format='dataframe'):
         """
             Args:
                 symbols - a list of symbols.
-                format - dataframe (pandas) or json
+                output_format - dataframe (pandas) or json
+                convert_dates - Converts dates
         """
         self.symbols = symbols
         self.symbols_list = ','.join(symbols)
-        if format not in ['dataframe', 'json']:
+        if date_format not in ['timestamp', 'datetime', 'isoformat']:
+            raise ValueError("date_format must be 'timestamp', 'datetime', or 'isoformat'")
+        self.date_format = None if date_format == 'timestamp' else date_format
+        if output_format not in ['dataframe', 'json']:
             raise ValueError("batch format must be either 'dataframe' or 'json")
-        self.format = format
+        self.output_format = format
 
     def _get(self, _type, params={}):
         request_url = BASE_URL + '/stock/market/batch'
         params.update({'symbols': self.symbols_list,
                        'types': _type})
         response = requests.get(request_url, params=params)
-        print(response.url)
         # Check the response
         if response.status_code != 200:
             raise Exception(f"{response.status_code}: {response.content.decode('utf-8')}")
 
-        if self.format == 'json':
+        if self.output_format == 'json':
             return response.json()
         result = response.json()
-
         if _type in ['delayed_quote',
                      'price']:
             for symbol, v in result.items():
@@ -176,18 +188,43 @@ class batch:
                 for row in rows[_type][_type]:
                     row.update({'symbol': symbol})
                     result_set.append(row)
-            #print([v[_type] for k, v in result.items()])
             result = pd.DataFrame.from_dict(result_set)
 
+        # Nested result list
+        elif _type in ['chart']:
+            result_set = []
+            for symbol, rowset in result.items():
+                for row in rowset[_type]:
+                    row.update({'symbol': symbol})
+                    result_set.append(row)
+            result = pd.DataFrame.from_dict(result_set)
+
+        # Convert columns with unix timestamps
+        if self.date_format:
+            date_field_conv = [x for x in result.columns if x in DATE_FIELDS]
+            if date_field_conv:
+                if self.date_format == 'datetime':
+                    date_apply_func = timestamp_to_datetime
+                elif self.date_format == 'isoformat':
+                    date_apply_func = timestamp_to_isoformat
+                result[date_field_conv] = result[date_field_conv].applymap(date_apply_func)
 
         # Move symbol to first column
         cols = ['symbol'] + [x for x in result.columns if x != 'symbol']
-        result = result.reindex_axis(cols, axis=1)
+        result = result.reindex(cols, axis=1)
+
         return result
 
     #def book(self):
-    #    Complex structure
+    #    
     #    return self._get("book")
+
+
+    def chart(self, range):
+        if range not in CHART_RANGES:
+            err_msg = f"Invalid chart type '{range}'. Valid chart types are {', '.join(CHART_RANGES)}"
+            raise ValueError(err_msg)
+        return self._get("chart", params={'range': range})
 
     def company(self):
         return self._get("company")
@@ -216,8 +253,9 @@ class batch:
     def quote(self):
         return self._get("quote")
 
+    def __repr__(self):
+        return f"<batch: {len(self.symbols)} symbols>"
 
+a = batch(["AAPL", "F", "TSLA", "MSFT", 'G', 'GOOG'], date_format='timestamp')
 
-a = batch(["AAPL", "F", "TSLA", "MSFT", 'G', 'GOOG'])
-
-print(a.quote())
+print(a.chart('5y'))
