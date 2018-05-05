@@ -1,4 +1,14 @@
+# IEX-API-Python
 
+### Summary
+
+__IEX-API-Python__ is a python wrapper for the [IEX API](https://iextrading.com/developer/docs/). The __IEX API__ provides stock market data from the IEX exchange for free.
+
+Before using __IEX-API-Python__ and the __IEX API__ you should read the [API terms of use](https://iextrading.com/api-terms/) and review the [documentation](https://iextrading.com/developer/docs/).
+
+### Organization
+
+The `IEX-API-Python` module is designed to map closely to the API from IEX. For many of the API calls, the resulting dataset is better represented in a tabular format. For these calls, data are returned as a [pandas.DataFrame](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html).
 
 ### Stocks
 
@@ -55,3 +65,5 @@
 * [ ] Splits
 * [ ] Time Series
 * [ ] Volume by Venue
+
+__reference__

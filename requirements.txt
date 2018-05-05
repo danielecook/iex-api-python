@@ -1,2 +1,6 @@
 pytest
 pytest-cov
+requests
+websockets
+pandas
+arrow

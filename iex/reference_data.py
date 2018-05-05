@@ -25,7 +25,11 @@ class reference:
         if self.output_format == 'json':
             return response.json()
         else:
-            return pd.DataFrame.from_dict(response.json())
+            # Move symbol to first column
+            result = pd.DataFrame.from_dict(response.json())
+            cols = ['symbol'] + [x for x in result.columns if x != 'symbol']
+            result = result.reindex(cols, axis=1)
+            return result
 
     def symbols(self):
         return self._get("symbols")
@@ -42,4 +46,4 @@ class reference:
 
 r = reference()
 
-print(r.symbols())
+#print(r.symbols())

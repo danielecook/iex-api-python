@@ -2,6 +2,7 @@ import pandas as pd
 import requests
 import re
 import datetime
+import json
 from iex.utils import (parse_date,
                        timestamp_to_datetime,
                        timestamp_to_isoformat)
@@ -105,6 +106,12 @@ class stock:
     def financials_table(self):
         return pd.DataFrame.from_dict(self.financials())
 
+    #def iex_regulation_sho_threshold_securities_list(self, date = ""):
+    #    date_match = re.match('[0-9]{8}', str(date))
+    #    if date and not date_match:
+    #        raise ValueError("Date specified incorrectly. Date must be specified as YYYYMMDD.")
+    #    return self._get(f"market/{date}")
+
     def price(self):
         return self._get(f"{self.symbol}/price")
 
@@ -148,6 +155,7 @@ class batch:
         params.update({'symbols': self.symbols_list,
                        'types': _type})
         response = requests.get(request_url, params=params)
+        print(json.dumps(response.json(), indent=2))
         # Check the response
         if response.status_code != 200:
             raise Exception(f"{response.status_code}: {response.content.decode('utf-8')}")
@@ -173,8 +181,7 @@ class batch:
                            .drop('level_1', 1)
 
         # Nested result
-        elif _type in ['book',
-                       'company',
+        elif _type in ['company',
                        'quote',
                        'stats']:
             for symbol, item in result.items():
@@ -191,7 +198,7 @@ class batch:
             result = pd.DataFrame.from_dict(result_set)
 
         # Nested result list
-        elif _type in ['chart']:
+        elif _type in ['book', 'chart']:
             result_set = []
             for symbol, rowset in result.items():
                 for row in rowset[_type]:
@@ -215,14 +222,13 @@ class batch:
 
         return result
 
-    #def book(self):
-    #    
-    #    return self._get("book")
+    def book(self):
+        return self._get("book")
 
 
     def chart(self, range):
         if range not in CHART_RANGES:
-            err_msg = f"Invalid chart type '{range}'. Valid chart types are {', '.join(CHART_RANGES)}"
+            err_msg = f"Invalid range: '{range}'. Valid ranges are {', '.join(CHART_RANGES)}"
             raise ValueError(err_msg)
         return self._get("chart", params={'range': range})
 
@@ -232,8 +238,10 @@ class batch:
     def delayed_quote(self):
         return self._get("delayed_quote")
 
-    #def chart(self):
-    #    return self._get('chart')
+    def dividends(self, range):
+        if range not in DIVIDEND_RANGES:
+            err_msg = f"Invalid range: '{range}'. Valid ranges are {', '.join(DIVIDEND_RANGES)}"
+            raise ValueError(err_msg)
 
     def earnings(self):
         return self._get('earnings')
@@ -256,6 +264,6 @@ class batch:
     def __repr__(self):
         return f"<batch: {len(self.symbols)} symbols>"
 
-a = batch(["AAPL", "F", "TSLA", "MSFT", 'G', 'GOOG'], date_format='timestamp')
 
-print(a.chart('5y'))
+fb = stock("fb")
+print(fb.dividends_table())

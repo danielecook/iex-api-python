@@ -1,0 +1,19 @@
+site_name: iex-api-python
+theme: readthedocs
+pages:
+  - Home: index.md
+  - Stock: stock.md
+  - Batch: batch.md
+  - Reference Data: reference_data.md
+
+repo_url: https://github.com/danielecook/iex-api-python
+site_favicon: favicon.png
+markdown_extensions:
+    - codehilite
+    - toc:
+        permalink: True
+    - fenced_code
+    - sane_lists
+
+markdown_extensions:
+    - admonition:
