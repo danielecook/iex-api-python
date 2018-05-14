@@ -39,3 +39,4 @@ htmlcov
 .pydevproject
 
 site/
+.pytest_cache
