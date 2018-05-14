@@ -2,7 +2,7 @@ site_name: iex-api-python
 theme: readthedocs
 pages:
   - Home: index.md
-  - Stock: stock.md
+  - Stock: stocks.md
   - Batch: batch.md
   - Reference Data: reference_data.md
 
@@ -17,3 +17,5 @@ markdown_extensions:
 
 markdown_extensions:
     - admonition:
+
+extra_javascript: [static/docs_js.js]

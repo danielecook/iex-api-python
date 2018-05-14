@@ -3,13 +3,14 @@ import requests
 import re
 import datetime
 import json
+from pandas import Series
 from iex.utils import (parse_date,
                        timestamp_to_datetime,
                        timestamp_to_isoformat)
 
 
 BASE_URL = "https://api.iextrading.com/1.0"
-CHART_RANGES = ['5y', '2y', '1y',
+CHART_RANGES = ['', '5y', '2y', '1y',
                 'ytd', '6m', '3m',
                 '1m', '1d', 'date',
                 'dynamic']
@@ -19,58 +20,125 @@ DATE_FIELDS = ['openTime',
                'closeTime',
                'latestUpdate',
                'iexLastUpdated',
-               'delayedPriceTime']
+               'delayedPriceTime',
+               'processedTime']
 
 
+def validate_date_format(date_format):
+    """
+        This function validates the date format specified
+        and returns it as a result.
+    """
+    if date_format not in ['timestamp', 'datetime', 'isoformat']:
+        raise ValueError("date_format must be 'timestamp', 'datetime', or 'isoformat'")
+    date_format = None if date_format == 'timestamp' else date_format
+    return date_format
 
 
 class stock:
 
-    def __init__(self, symbol):
+    def __init__(self, symbol, date_format='timestamp'):
         self.symbol = symbol.upper()
+        self.date_format = validate_date_format(date_format)
 
-    def _get(self, url):
+    def _get(self, url, params={}):
         request_url =f"{BASE_URL}/stock/{url}"
-        response = requests.get(request_url)
+        response = requests.get(request_url, params=params)
         if response.status_code != 200:
             raise Exception(f"{response.status_code}: {response.content.decode('utf-8')}")
-        return response.json()
+        result = response.json()
 
-    def book(self):
-        return self._get(f"{self.symbol}/book").get('quote')
+        # timestamp conversion
+        if type(result) == dict and self.date_format:
+            if self.date_format == 'datetime':
+                date_apply_func = timestamp_to_datetime
+            elif self.date_format == 'isoformat':
+                date_apply_func = timestamp_to_isoformat
 
-    def chart(self, range='1d'):
+            for key, val in result.items():
+                if key in DATE_FIELDS:
+                    result[key] = date_apply_func(val)
+        return result
+
+    #def book(self):
+    #    return self._get(f"{self.symbol}/book").get('quote')
+
+    def chart(self,
+              range='1m',
+              chartReset=None,
+              chartSimplify=None,
+              chartInterval=None):
         """
             Args:
                 range - what range of data to retrieve. The variable 'CHART_RANGES'
                         has possible values in addition to a date.
         """
-        date_match = re.match('[0-9]{8}', str(range))
+
+        # Setup parameters
+        params = {'chartReset': chartReset,
+                  'chartSimplify': chartSimplify,
+                  'chartInterval': chartInterval}
+        params = {k: v for k, v in params.items() if v}
+        if chartReset and type(chartReset) != bool:
+            raise ValueError("chartReset must be bool")
+        if chartSimplify and type(chartSimplify) != bool:
+            raise ValueError("chartSimplify must be bool")
+        if chartInterval and type(chartInterval) != int:
+            raise ValueError("chartInterval must be int")
+
+        # Detect date
+        date_match = re.match('^[0-9]{8}$', str(range))
         if range not in CHART_RANGES and type(range) not in [int, datetime.datetime] and not date_match:
             err_msg = f"Invalid chart type '{range}'. Valid chart types are {', '.join(CHART_RANGES)}, YYYYMMDD (int), datetime"
             raise ValueError(err_msg)
-
+        print(range)
         if type(range) == int:
             url = f"{self.symbol}/chart/date/{range}"
-        elif parse_date(range):
+        elif date_match:
             range = parse_date(range)
             url = f"{self.symbol}/chart/date/{range}"
         else:
             url = f"{self.symbol}/chart/{range}"
 
-        return self._get(url)
+        return self._get(url, params=params)
 
-    def chart_table(self, range='1d'):
-        chart_data = self.chart(range)
-        return pd.DataFrame.from_dict(chart_data)
+    def chart_table(self,
+                    range='1m',
+                    chartReset=None,
+                    chartSimplify=None,
+                    chartInterval=None):
+        """
+            Args:
+                range
+                chartReset
+                chartSimplify
+                chartInterval
+    
+        """
 
+        params = {'chartReset': chartReset,
+                  'chartSimplify': chartSimplify,
+                  'chartInterval': chartInterval}
+        params = {k: v for k, v in params.items() if v}
+
+        chart_result = self.chart(range, **params)
+        if not chart_result:
+            return pd.DataFrame.from_dict({})
+        if type(chart_result) == dict:
+            # If dynamic is specified, return the range to the user.
+            chart_range = chart_result.get('range')
+            chart_data = chart_result.get('data')
+            chart_data = pd.DataFrame.from_dict(chart_data)
+            chart_data['range'] = chart_range
+            return pd.DataFrame.from_dict(chart_data)
+        elif type(chart_result) == list:
+            return pd.DataFrame.from_dict(chart_result)
+ 
     def company(self):
         return self._get(f"{self.symbol}/company")
 
     def delayed_quote(self):
         dquote = self._get(f"{self.symbol}/delayed-quote")
-        dquote['delayedPriceTime'] = timestamp_to_datetime(dquote['delayedPriceTime'])
-        dquote['processedTime'] = timestamp_to_datetime(dquote['processedTime'])
         return dquote
 
     def dividends(self, range='1m'):
@@ -143,9 +211,7 @@ class batch:
         """
         self.symbols = symbols
         self.symbols_list = ','.join(symbols)
-        if date_format not in ['timestamp', 'datetime', 'isoformat']:
-            raise ValueError("date_format must be 'timestamp', 'datetime', or 'isoformat'")
-        self.date_format = None if date_format == 'timestamp' else date_format
+        self.date_format = validate_date_format(date_format)
         if output_format not in ['dataframe', 'json']:
             raise ValueError("batch format must be either 'dataframe' or 'json")
         self.output_format = format
@@ -264,6 +330,6 @@ class batch:
     def __repr__(self):
         return f"<batch: {len(self.symbols)} symbols>"
 
+fb = stock("msft", date_format="datetime")
 
-fb = stock("fb")
-print(fb.dividends_table())
+print(fb.delayed_quote())

@@ -51,7 +51,7 @@ class stats:
         if date and not date_match:
             raise ValueError("Date incorrectly specified. Must match YYYYMM")
         if date and last:
-            raise ValueError("Cannot specify last and date")
+            raise ValueError("Cannot specify last and date parameters")
         if not isinstance(last, int):
             raise ValueError("last must be specified as an integer.")
         if date_match:
@@ -62,5 +62,5 @@ class stats:
 
 
 r = stats()
-print(r.historical_daily(last=10))
+print(r.records())
 #print(r.symbols())
