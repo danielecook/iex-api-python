@@ -6,15 +6,17 @@
 
 The `stock` object is useful for returning information for individual stocks, and is designed to map closely to the __[Stocks](https://iextrading.com/developer/docs/#stocks)__ section of the IEX API. One major difference is that the `stock` object is not designed to handle batch requests. Instead, batch requests can be handled using the [`batch`](batch) object.
 
-Most of the `stock` methods return a python dictionary whereas `batch` methods tend to return pandas dataframes. However, a few `stock` methods do return a pandas dataframe.
-
+Most of the `stock` methods return a python dictionary whereas `batch` methods tend to return pandas dataframes. However, some `stock` methods do return a pandas dataframe.
 
 ### `stock(symbol, date_format)`
 
 __Parameters__
 
 * __`symbol`__ - A stock symbol
-* __`date_format` (default: timestamp)__ - Specifies how timestamps should be should be returned. Options are: `timestamp`, `datetime`, or `isoformat`.
+* __`date_format` (default: timestamp)__ - Specifies how timestamps should be should be returned. Set to one of the following:
+    * `timestamp` - default; Does not alter IEX API output.
+    * `datetime` - Datetime object.
+    * `isoformat` - Converts to isoformat.
 
 ## Creating a new `stock` object
 
@@ -50,8 +52,6 @@ goog.book()
 
 [IEX reference](https://iextrading.com/developer/docs/#chart)
 
-See the IEX API reference for detail on range options and data returned.
-
 __Parameters__
 
 * __`range` (default: 1m)__ - Historical adjusted market-wide data or IEX-only data. See the [IEX API reference](https://iextrading.com/developer/docs/#chart) for further details.
@@ -63,6 +63,12 @@ __Parameters__
 ### chart_table()
 
 Returns a pandas dataframe from chart data. If `range=dynamic`, a `range` column is appended to the returned dataframe indicating whether the data is for `1d` or `1m`.
+
+__Parameters__
+
+Same as above with [`chart()`](#chart).
+
+__Example__
 
 ```{python}
 goog = stock("goog")
@@ -83,6 +89,20 @@ goog.chart_table(range='1d')
 [IEX reference](https://iextrading.com/developer/docs/#company)
 
 ### delayed_quote()
+
+[IEX reference](https://iextrading.com/developer/docs/#delayed-quote)
+
+### dividends()
+
+[IEX reference](https://iextrading.com/developer/docs/#dividends)
+
+__parameters__
+
+* __`range` (default: 1m)__- Historical market data; range of data on dividends to return.
+
+### earnings()
+
+
 
 
 
