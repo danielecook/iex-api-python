@@ -9,6 +9,7 @@ pages:
 repo_url: https://github.com/danielecook/iex-api-python
 site_favicon: favicon.png
 markdown_extensions:
+    - admonition
     - codehilite
     - toc:
         permalink: True
@@ -16,6 +17,10 @@ markdown_extensions:
     - sane_lists
 
 markdown_extensions:
-    - admonition:
+    - admonition
+    - fontawesome_markdown
 
 extra_javascript: [static/docs_js.js]
+
+plugins:
+    - search

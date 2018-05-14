@@ -6,9 +6,9 @@
 
 The `stock` object is useful for returning information for individual stocks, and is designed to map closely to the __[Stocks](https://iextrading.com/developer/docs/#stocks)__ section of the IEX API. One major difference is that the `stock` object is not designed to handle batch requests. Instead, batch requests can be handled using the [`batch`](batch) object.
 
-Most of the `stock` methods return a python dictionary whereas `batch` methods tend to return pandas dataframes. However, some `stock` methods do return a pandas dataframe.
+Most of the `stock` methods return a python dictionary whereas `batch` methods tend to return Pandas dataframes. However, several `stock` methods have supplementary methods (suffixed with `_table`) that will return a Pandas dataframe.
 
-### `stock(symbol, date_format)`
+#### `stock(symbol, date_format)`
 
 __Parameters__
 
@@ -34,7 +34,7 @@ Below are the methods that can be invoked with a `stock` object. After each meth
 
 ### book()
 
-[IEX reference](https://iextrading.com/developer/docs/#book)
+[IEX API - Book <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#book)
 
 ```{python}
 goog = stock("goog")
@@ -50,7 +50,7 @@ goog.book()
 
 ### chart()
 
-[IEX reference](https://iextrading.com/developer/docs/#chart)
+[IEX API - Chart <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#chart)
 
 __Parameters__
 
@@ -62,11 +62,11 @@ __Parameters__
 
 ### chart_table()
 
-Returns a pandas dataframe from chart data. If `range=dynamic`, a `range` column is appended to the returned dataframe indicating whether the data is for `1d` or `1m`.
+Returns a pandas dataframe from chart data. If `range=dynamic`, a `range` column is appended to the returned dataframe indicating whether the data is for `1d` or `1m`. See the IEX API documentation for further details.
 
 __Parameters__
 
-Same as above with [`chart()`](#chart).
+The same parameters are available as with [`chart()`](#chart).
 
 __Example__
 
@@ -86,15 +86,15 @@ goog.chart_table(range='1d')
 
 ### company()
 
-[IEX reference](https://iextrading.com/developer/docs/#company)
+[IEX API - Company <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#company)
 
 ### delayed_quote()
 
-[IEX reference](https://iextrading.com/developer/docs/#delayed-quote)
+[IEX API - Delayed Quote <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#delayed-quote)
 
 ### dividends()
 
-[IEX reference](https://iextrading.com/developer/docs/#dividends)
+[IEX API - Dividends <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#dividends)
 
 __parameters__
 
@@ -102,10 +102,20 @@ __parameters__
 
 ### earnings()
 
+[IEX API - Earnings <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#earnings)
+
+### effective_spread()
+
+[IEX API - Effective Spread <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#effective-spread)
+
+### effective_spread_table()
+
+Returns a dataframe of [`effective_spread()`](#effective_spread)
+
+### financials()
 
 
-
-
+### financials_table()
 
 
 

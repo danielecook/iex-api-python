@@ -332,4 +332,4 @@ class batch:
 
 fb = stock("msft", date_format="datetime")
 
-print(fb.delayed_quote())
+print(fb.effective_spread())
