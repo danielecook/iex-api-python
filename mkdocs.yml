@@ -5,6 +5,7 @@ theme:
     primary: 'Amber'
     accent: 'Light Blue'
   logo: 'iex_logo.png'
+  favicon: 'iex_logo.png'
   feature:
     tabs: true
 
@@ -15,7 +16,6 @@ pages:
   - Reference Data: reference_data.md
 
 repo_url: https://github.com/danielecook/iex-api-python
-site_favicon: favicon.png
 markdown_extensions:
     - admonition
     - codehilite
