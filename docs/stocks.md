@@ -6,9 +6,7 @@
 
     Most of the `stock` methods return a python dictionary whereas `batch` methods tend to return Pandas dataframes. However, several `stock` methods have supplementary methods (suffixed with `_table`) that will return a Pandas dataframe.
 
-```
-stock(symbol, date_format)`
-```
+#### `stock(symbol, date_format)`
 
 __Parameters__
 
@@ -34,7 +32,9 @@ Below are the methods that can be invoked with a `stock` object. After each meth
 
 ### `book()`
 
-[IEX API - Book](https://iextrading.com/developer/docs/#book)
+[IEX API - Book <i class="material-icons md-16">
+open_in_new
+</i>](https://iextrading.com/developer/docs/#book)
 
 ``` python
 goog = stock("goog")
@@ -50,7 +50,7 @@ goog.book()
 
 ### `chart()`
 
-[IEX API - Chart <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#chart)
+[IEX API - Chart <i class="material-icons md-16">open_in_new</i>](https://iextrading.com/developer/docs/#chart)
 
 __Parameters__
 
@@ -86,15 +86,15 @@ goog.chart_table(range='1d')
 
 ### `company()`
 
-[IEX API - Company <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#company)
+[IEX API - Company <i class="material-icons md-16">open_in_new</i>](https://iextrading.com/developer/docs/#company)
 
 ### `delayed_quote()`
 
-[IEX API - Delayed Quote <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#delayed-quote)
+[IEX API - Delayed Quote <i class="material-icons md-16">open_in_new</i>](https://iextrading.com/developer/docs/#delayed-quote)
 
 ### `dividends()`
 
-[IEX API - Dividends <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#dividends)
+[IEX API - Dividends <i class="material-icons md-16">open_in_new</i>](https://iextrading.com/developer/docs/#dividends)
 
 __parameters__
 
@@ -102,11 +102,11 @@ __parameters__
 
 ### `earnings()`
 
-[IEX API - Earnings <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#earnings)
+[IEX API - Earnings <i class="material-icons md-16">open_in_new</i>](https://iextrading.com/developer/docs/#earnings)
 
 ### `effective_spread()`
 
-[IEX API - Effective Spread <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#effective-spread)
+[IEX API - Effective Spread <i class="material-icons md-16">open_in_new</i>](https://iextrading.com/developer/docs/#effective-spread)
 
 ### `effective_spread_table()`
 
@@ -116,10 +116,6 @@ Returns a dataframe of [`effective_spread()`](#effective_spread)
 
 
 ### `financials_table()`
-
-
-* [ ] Test
-* [x] t2
 
 
 
