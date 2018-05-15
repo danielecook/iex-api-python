@@ -7,7 +7,10 @@ before_install:
   - pip install pytest
   - pip install pytest-cov
   - pip install coveralls
+  - pip install mkdocs
+  - pip install pygments
 script:
   - py.test
 after_success:
   - COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN} coveralls
+  - mkdocs gh-deploy --github-token "${GH_TOKEN}"

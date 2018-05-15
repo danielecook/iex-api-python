@@ -1,6 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/danielecook/iex-api-python/badge.svg)](https://coveralls.io/github/danielecook/iex-api-python)
-
-[![Build Status](https://travis-ci.org/danielecook/iex-api-python.svg?branch=master)](https://travis-ci.org/danielecook/iex-api-python)
+[![Build Status](https://travis-ci.org/danielecook/iex-api-python.svg?branch=master)](https://travis-ci.org/danielecook/iex-api-python) [![Coverage Status](https://coveralls.io/repos/github/danielecook/iex-api-python/badge.svg)](https://coveralls.io/github/danielecook/iex-api-python)
 
 # IEX-API-Python
 

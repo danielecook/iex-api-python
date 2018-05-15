@@ -26,3 +26,9 @@ def test_chart_range():
     msft = stock("MSFT")
     with pytest.raises(ValueError):
         msft.chart(range="not_a_real_range")
+
+
+def test_company():
+    fb = stock("FB")
+    assert fb.company().get("companyName") == "Facebook Inc."
+

@@ -113,7 +113,7 @@ class stock:
                 chartReset
                 chartSimplify
                 chartInterval
-    
+
         """
 
         params = {'chartReset': chartReset,

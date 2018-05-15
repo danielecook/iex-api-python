@@ -1,5 +1,13 @@
-site_name: iex-api-python
-theme: readthedocs
+site_name: IEX-API-Python
+theme: 
+  name: 'material'
+  palette:
+    primary: 'Amber'
+    accent: 'Light Blue'
+  logo: 'iex_logo.png'
+  feature:
+    tabs: true
+
 pages:
   - Home: index.md
   - Stock: stocks.md
@@ -15,12 +23,13 @@ markdown_extensions:
         permalink: True
     - fenced_code
     - sane_lists
-
-markdown_extensions:
-    - admonition
     - fontawesome_markdown
 
 extra_javascript: [static/docs_js.js]
 
 plugins:
     - search
+
+google_analytics:
+  - 'UA-39176354-4'
+  - 'auto'

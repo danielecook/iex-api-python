@@ -1,14 +1,14 @@
 # Stocks
 
-[TOC]
-
 ## The stock object
 
 The `stock` object is useful for returning information for individual stocks, and is designed to map closely to the __[Stocks](https://iextrading.com/developer/docs/#stocks)__ section of the IEX API. One major difference is that the `stock` object is not designed to handle batch requests. Instead, batch requests can be handled using the [`batch`](batch) object.
 
 Most of the `stock` methods return a python dictionary whereas `batch` methods tend to return Pandas dataframes. However, several `stock` methods have supplementary methods (suffixed with `_table`) that will return a Pandas dataframe.
 
-#### `stock(symbol, date_format)`
+```
+stock(symbol, date_format)`
+```
 
 __Parameters__
 
@@ -22,7 +22,7 @@ __Parameters__
 
 Provide a stock symbol to create a stock object.
 
-```
+``` python
 tsla = stock("tsla")
 ```
 
@@ -32,11 +32,11 @@ tsla = stock("tsla")
 
 Below are the methods that can be invoked with a `stock` object. After each method listed below is a `ref` link which will take you to the corresponding IEX API documentation.
 
-### book()
+### `book()`
 
-[IEX API - Book <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#book)
+[IEX API - Book](https://iextrading.com/developer/docs/#book)
 
-```{python}
+``` python
 goog = stock("goog")
 goog.book()
 ```
@@ -48,7 +48,7 @@ goog.book()
      'week52Low': 894.79,
      'ytdChange': 0.0312300469483568}
 
-### chart()
+### `chart()`
 
 [IEX API - Chart <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#chart)
 
@@ -60,7 +60,7 @@ __Parameters__
 * __`chartSimplify` (bool; default: `None`)__ -  If `True`, runs a polyline simplification using the Douglas-Peucker algorithm. This is useful if plotting sparkline charts.
 * __`chartInterval` (bool: default: `None`)__ -  If passed, chart data will return every Nth element.
 
-### chart_table()
+### `chart_table()`
 
 Returns a pandas dataframe from chart data. If `range=dynamic`, a `range` column is appended to the returned dataframe indicating whether the data is for `1d` or `1m`. See the IEX API documentation for further details.
 
@@ -70,7 +70,7 @@ The same parameters are available as with [`chart()`](#chart).
 
 __Example__
 
-```{python}
+``` python
 goog = stock("goog")
 goog.chart_table(range='1d')
 ```
@@ -84,38 +84,38 @@ goog.chart_table(range='1d')
     ...
 
 
-### company()
+### `company()`
 
 [IEX API - Company <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#company)
 
-### delayed_quote()
+### `delayed_quote()`
 
 [IEX API - Delayed Quote <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#delayed-quote)
 
-### dividends()
+### `dividends()`
 
 [IEX API - Dividends <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#dividends)
 
 __parameters__
 
-* __`range` (default: 1m)__- Historical market data; range of data on dividends to return.
+* __`range` (default: 1m)__ - Historical market data; range of data on dividends to return.
 
-### earnings()
+### `earnings()`
 
 [IEX API - Earnings <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#earnings)
 
-### effective_spread()
+### `effective_spread()`
 
 [IEX API - Effective Spread <i class="fa fa-external-link-square"></i>](https://iextrading.com/developer/docs/#effective-spread)
 
-### effective_spread_table()
+### `effective_spread_table()`
 
 Returns a dataframe of [`effective_spread()`](#effective_spread)
 
-### financials()
+### `financials()`
 
 
-### financials_table()
+### `financials_table()`
 
 
 
