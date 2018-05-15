@@ -23,6 +23,15 @@ markdown_extensions:
         permalink: True
     - fenced_code
     - sane_lists
+    - footnotes
+    - pymdownx.inlinehilite
+    - pymdownx.magiclink
+    - pymdownx.mark
+    - pymdownx.smartsymbols
+    - pymdownx.superfences
+    - pymdownx.tasklist:
+        custom_checkbox: true
+    - pymdownx.tilde
 
 extra_javascript: [static/docs_js.js]
 

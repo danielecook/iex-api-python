@@ -10,6 +10,7 @@ before_install:
   - pip install mkdocs
   - pip install pygments
   - pip install mkdocs-material
+  - pip install pymdown-extensions
 script:
   - py.test
 after_success:

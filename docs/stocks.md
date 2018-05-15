@@ -1,10 +1,10 @@
-# Stocks
+# Stock
 
-## The stock object
+!!! Stock
 
-The `stock` object is useful for returning information for individual stocks, and is designed to map closely to the __[Stocks](https://iextrading.com/developer/docs/#stocks)__ section of the IEX API. One major difference is that the `stock` object is not designed to handle batch requests. Instead, batch requests can be handled using the [`batch`](batch) object.
+    The `stock` object is useful for returning information for individual stocks, and is designed to map closely to the __[Stocks](https://iextrading.com/developer/docs/#stocks)__ section of the IEX API. One major difference is that the `stock` object is not designed to handle batch requests. Instead, batch requests can be handled using the [`batch`](batch) object.
 
-Most of the `stock` methods return a python dictionary whereas `batch` methods tend to return Pandas dataframes. However, several `stock` methods have supplementary methods (suffixed with `_table`) that will return a Pandas dataframe.
+    Most of the `stock` methods return a python dictionary whereas `batch` methods tend to return Pandas dataframes. However, several `stock` methods have supplementary methods (suffixed with `_table`) that will return a Pandas dataframe.
 
 ```
 stock(symbol, date_format)`
@@ -116,6 +116,10 @@ Returns a dataframe of [`effective_spread()`](#effective_spread)
 
 
 ### `financials_table()`
+
+
+* [ ] Test
+* [x] t2
 
 
 
