@@ -60,8 +60,8 @@ class stock:
                     result[key] = date_apply_func(val)
         return result
 
-    #def book(self):
-    #    return self._get(f"{self.symbol}/book").get('quote')
+    def book(self):
+        return self._get(f"{self.symbol}/book").get('quote')
 
     def chart(self,
               range='1m',

@@ -1,8 +1,13 @@
 language: python
 python:
-  - "2.7"
-  - "3.3"
-  - "3.4"
   - "3.5"
+  - "3.6"
+
+before_install:
+  - pip install pytest
+  - pip install pytest-cov
+  - gem install coveralls
 script:
   - py.test
+after_success:
+  - COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN} coveralls
