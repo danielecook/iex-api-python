@@ -61,7 +61,7 @@ class stock:
         return result
 
     def book(self):
-        return self._get(f"{self.symbol}/book").get('quote')
+        return self._get(f"{self.symbol}/book")
 
     def chart(self,
               range='1m',
