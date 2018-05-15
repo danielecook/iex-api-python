@@ -9,6 +9,7 @@ before_install:
   - pip install coveralls
   - pip install mkdocs
   - pip install pygments
+  - pip install mkdocs-material
 script:
   - py.test
 after_success:
