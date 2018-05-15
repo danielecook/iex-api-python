@@ -4,6 +4,8 @@
 
 # IEX-API-Python
 
+__Python >=3.6__
+
 ### Summary
 
 __IEX-API-Python__ is a python wrapper for the [IEX API](https://iextrading.com/developer/docs/). The __IEX API__ provides stock market data from the IEX exchange for free.
