@@ -6,7 +6,7 @@ __Parameters__
 
 * __`output_format`__ - The format to output. Options:
     - __`dataframe` (default)__ - Return result as a pandas dataframe.
-    - __`dict`__ - Return result as python dictionaries.
+    - __`json`__ - Return raw result converted from JSON to a python data structure.
 
 
 !!! note "The reference class"

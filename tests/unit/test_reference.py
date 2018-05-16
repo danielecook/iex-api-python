@@ -20,6 +20,11 @@ from iex import reference
 ref = reference()
 
 
+def test_json_return():
+    symbols_json = reference(output_format='json').symbols()
+    assert type(symbols_json) == list
+
+
 def test_ref_symbols():
     assert ref.symbols().empty is False
 
