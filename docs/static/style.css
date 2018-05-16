@@ -1,5 +1,25 @@
-.material-icons.md-16 { font-size: 16px; }
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.material-icons.md-48 { font-size: 48px; }
+.material-icons { font-size: 16px; }
+
+
+.code-def {
+    font-family: courier;
+    font-size: 25px;
+    background-color: #f1f1f1;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #7f7f7f;
+}
+
+h3 code {
+    font-size: 18px !important;
+    border-radius: 5px !important;
+    background-color: #f1f1f1 !important;
+    padding: 5px 10px !important;
+    display: inline-block !important;
+    border: 1px solid #7f7f7f ;
+}
+
+h3 code:before {
+    content: ".";
+    color: #7f7f7f;
+}

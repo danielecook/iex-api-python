@@ -4,28 +4,46 @@ import re
 import datetime
 import json
 from pandas import Series
-from iex.utils import (param_bool,
-                       parse_date,
-                       validate_date_format,
-                       validate_range_set,
+from iex.utils import (parse_date,
                        timestamp_to_datetime,
                        timestamp_to_isoformat)
-from iex.constants import (BASE_URL,
-                           CHART_RANGES,
-                           RANGES,
-                           DATE_FIELDS)
 
 
-class stock:
+BASE_URL = "https://api.iextrading.com/1.0"
+CHART_RANGES = ['', '5y', '2y', '1y',
+                'ytd', '6m', '3m',
+                '1m', '1d', 'date',
+                'dynamic']
+DIVIDEND_RANGES = ['5y', '2y', '1y',
+                   'ytd', '6m', '3m', '1m']
+DATE_FIELDS = ['openTime',
+               'closeTime',
+               'latestUpdate',
+               'iexLastUpdated',
+               'delayedPriceTime',
+               'processedTime']
+
+
+def validate_date_format(date_format):
+    """
+        This function validates the date format specified
+        and returns it as a result.
+    """
+    if date_format not in ['timestamp', 'datetime', 'isoformat']:
+        raise ValueError("date_format must be 'timestamp', 'datetime', or 'isoformat'")
+    date_format = None if date_format == 'timestamp' else date_format
+    return date_format
+
+
+class market:
 
     def __init__(self, symbol, date_format='timestamp'):
         self.symbol = symbol.upper()
         self.date_format = validate_date_format(date_format)
 
     def _get(self, url, params={}):
-        request_url =f"{BASE_URL}/stock/{self.symbol}/{url}"
+        request_url =f"{BASE_URL}/stock/{url}"
         response = requests.get(request_url, params=params)
-        print(response.url)
         if response.status_code != 200:
             raise Exception(f"{response.status_code}: {response.content.decode('utf-8')}")
         result = response.json()
@@ -43,7 +61,7 @@ class stock:
         return result
 
     def book(self):
-        return self._get("book")
+        return self._get(f"{self.symbol}/book")
 
     def chart(self,
               range='1m',
@@ -60,7 +78,7 @@ class stock:
         params = {'chartReset': chartReset,
                   'chartSimplify': chartSimplify,
                   'chartInterval': chartInterval}
-        params = {k: param_bool(v) for k, v in params.items() if v}
+        params = {k: v for k, v in params.items() if v}
         if chartReset and type(chartReset) != bool:
             raise ValueError("chartReset must be bool")
         if chartSimplify and type(chartSimplify) != bool:
@@ -68,19 +86,19 @@ class stock:
         if chartInterval and type(chartInterval) != int:
             raise ValueError("chartInterval must be int")
 
-        # Validate range is appropriate
-        validate_range_set(range, CHART_RANGES)
-
-        # date match
-        date_match = re.match('^[0-9]{8}$', range)
-
+        # Detect date
+        date_match = re.match('^[0-9]{8}$', str(range))
+        if range not in CHART_RANGES and type(range) not in [int, datetime.datetime] and not date_match:
+            err_msg = f"Invalid chart type '{range}'. Valid chart types are {', '.join(CHART_RANGES)}, YYYYMMDD (int), datetime"
+            raise ValueError(err_msg)
+        print(range)
         if type(range) == int:
-            url = f"chart/date/{range}"
+            url = f"{self.symbol}/chart/date/{range}"
         elif date_match:
             range = parse_date(range)
-            url = f"chart/date/{range}"
+            url = f"{self.symbol}/chart/date/{range}"
         else:
-            url = f"chart/{range}"
+            url = f"{self.symbol}/chart/{range}"
 
         return self._get(url, params=params)
 
@@ -117,10 +135,11 @@ class stock:
             return pd.DataFrame.from_dict(chart_result)
  
     def company(self):
-        return self._get("company")
+        return self._get(f"{self.symbol}/company")
 
     def delayed_quote(self):
-        return self._get("delayed-quote")
+        dquote = self._get(f"{self.symbol}/delayed-quote")
+        return dquote
 
     def dividends(self, range='1m'):
         """
@@ -128,79 +147,54 @@ class stock:
                 range - what range of data to retrieve. The variable
                         'DIVIDEND_RANGES' has possible values in addition to a date.
         """
-        validate_range_set(range, RANGES)
-        return self._get(f"chart/{range}")
+        DIVIDEND_RANGES
+        if range not in CHART_RANGES and type(range) not in [int, datetime.datetime]:
+            err_msg = f"Invalid range: '{range}'. Valid chart types are {', '.join(CHART_RANGES)}, YYYYMMDD (int), datetime"
+            raise ValueError(err_msg)
+        else:
+            url = f"{self.symbol}/chart/{range}"
+        return self._get(url)
 
     def dividends_table(self, range='1m'):
         dividends_data = self.dividends(range)
         return pd.DataFrame.from_dict(dividends_data)
 
     def earnings(self):
-        return self._get("earnings")
+        return self._get(f"{self.symbol}/earnings")
 
     def effective_spread(self):
-        return self._get("effective-spread")
+        return self._get(f"{self.symbol}/effective-spread")
 
     def effective_spread_table(self):
         return pd.DataFrame.from_dict(self.effective_spread())
 
     def financials(self):
-        return self._get("financials")['financials']
+        return self._get(f"{self.symbol}/financials")['financials']
 
     def financials_table(self):
         return pd.DataFrame.from_dict(self.financials())
 
+    #def iex_regulation_sho_threshold_securities_list(self, date = ""):
+    #    date_match = re.match('[0-9]{8}', str(date))
+    #    if date and not date_match:
+    #        raise ValueError("Date specified incorrectly. Date must be specified as YYYYMMDD.")
+    #    return self._get(f"market/{date}")
+
+    def price(self):
+        return self._get(f"{self.symbol}/price")
+
     def stats(self):
-        return self._get("stats")
-
-    def logo(self):
-        return self._get("logo")
-
-    def news(self, last=None):
-        if not 1 <= last <= 50:
-            raise ValueError("Last must not be a value between 1 and 50.")
-        if last:
-            url = f"news/last/{last}"
-        else:
-            url = "news"
-        return self._get(url)
-
-    def ohlc(self):
-        return self._get("ohlc")
+        return self._get(f"{self.symbol}/stats")
 
     def peers(self, as_string=False):
         if as_string:
-            return [x for x in self._get("peers")]
+            return [x for x in self._get(f"{self.symbol}/peers")]
         else:
-            return [stock(x) for x in self._get("peers")]
+            return [stock(x) for x in self._get(f"{self.symbol}/peers")]
 
     def previous(self):
-        return self._get(f"previous")
-
-    def price(self):
-        return self._get("price")
-
-    def quote(self, displayPercent=False):
-        return self._get("quote", params={"displayPercent": param_bool(displayPercent)})
-
-    def relevant(self):
-        return self._get("relevant")
-
-    def splits(self, range="1m"):
-        validate_range_set(range, RANGES)
-        return self._get(f"splits/{range}")
-
-    def time_series(self, range='1m', chartReset=None, chartSimplify=None, chartInterval=None):
-        return self.chart(range,
-                          chartReset,
-                          chartSimplify,
-                          chartInterval)
-
-    def volume_by_venue(self):
-        return self._get("volume-by-venue")
-
-    def volume_by_venue_table(self):
-        return pd.DataFrame.from_dict(self.volume_by_venue())
+        return self._get(f"{self.symbol}/previous")
+        
 
     def __repr__(self):
         return f"<stock:{self.symbol}>"
@@ -334,9 +328,8 @@ class batch:
     def price(self):
         return self._get("price")
 
-    def quote(self, displayPercent=False):
-        displayPercent = param_bool(displayPercent)
-        return self._get("quote", params={"displayPercent": displayPercent})
+    def quote(self):
+        return self._get("quote")
 
     def __repr__(self):
         return f"<batch: {len(self.symbols)} symbols>"
