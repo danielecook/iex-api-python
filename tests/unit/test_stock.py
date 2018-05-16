@@ -14,8 +14,6 @@ def test_stock_book():
 
 def test_stock_chart():
     tsla = stock("TSLA")
-    tsla.chart(range='1d')
-    print(tsla.chart(range='20180514'))
     assert tsla.chart(range='20180514')[0]['date'] == '20180514'
 
 
