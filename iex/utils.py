@@ -36,14 +36,23 @@ def parse_date(date):
             date
     """
     try:
-        return parse(date).strftime("%Y%m%d")
+        parsed_date = parse(str(date))
     except ValueError:
         return False
+    if (arrow.now().date() - parsed_date.date()).days < 0:
+            raise ValueError("Date cannot be set in the future")
+    return parsed_date.strftime("%Y%m%d")
 
 
 #============#
 # Validators #
 #============#
+
+def validate_output_format(output_format):
+    if output_format not in ['dataframe', 'json']:
+        raise ValueError("batch format must be either 'dataframe' or 'json")
+    return output_format
+
 
 def validate_date_format(date_format):
     """
@@ -67,7 +76,7 @@ def validate_range_set(range, range_set):
     passing_criteria = []
     if 'date' in range_set:
         passing_criteria.append(type(range) == datetime.datetime)
-        passing_criteria.append(re.match('^[0-9]{8}$', str(range)))
+        passing_criteria.append(parse_date(range))
     passing_criteria.append(range in range_set)
     if not any(passing_criteria):
         if 'date' in range_set:
