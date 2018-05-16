@@ -10,8 +10,7 @@ class reference:
     def __init__(self, output_format='dataframe'):
         """
             Args:
-                symbols - a list of symbols.
-                format - dataframe (pandas) or json
+                output_format - dataframe (pandas) or dict
         """
         self.output_format = validate_output_format(output_format)
 
@@ -40,7 +39,6 @@ class reference:
     def iex_dividends(self, date=None):
         date = parse_date(date)
         url = f"daily-list/dividends/{date}" if date else "daily-list/dividends"
-
         return self._get(url)
 
     def iex_next_day_ex_date(self, date=None):

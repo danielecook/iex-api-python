@@ -61,7 +61,3 @@ class stats:
             params.update({'last': last})
         return self._get("historical/daily", params)
 
-
-r = stats()
-print(r.records())
-#print(r.symbols())

@@ -13,8 +13,9 @@ pages:
   - Home: index.md
   - Stock: stocks.md
   - Batch: batch.md
-  - Market: market.md
   - Reference Data: reference_data.md
+  - IEX Stats: stats.md
+  - Markets: market.md
 
 repo_url: https://github.com/danielecook/iex-api-python
 markdown_extensions:

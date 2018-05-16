@@ -1,13 +1,13 @@
 import pandas as pd
 import requests
-import re
-from iex.utils import (param_bool,
-                       parse_date,
+
+from iex.utils import (parse_date,
                        validate_date_format,
                        validate_range_set,
                        validate_output_format,
                        timestamp_to_datetime,
                        timestamp_to_isoformat)
+
 from iex.constants import (BASE_URL,
                            CHART_RANGES,
                            RANGES,
@@ -79,7 +79,3 @@ class iex_stats:
 
     def __repr__(self):
         return f"<iex_stats:{self.symbol}>"
-
-
-i = iex_stats()
-print(i.historical_daily(last=90))
