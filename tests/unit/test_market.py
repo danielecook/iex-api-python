@@ -26,3 +26,7 @@ def test_short_interest():
 
 def news():
     assert m.news(last=1).empty == False
+
+
+def ohlc():
+    pass
