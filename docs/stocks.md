@@ -47,7 +47,8 @@ goog.book()
 ```
 
     # Output
-    {'quote': {...},
+    {
+     'quote': {...},
      'bids': [...],
      'asks': [...],
      'trades': [...],

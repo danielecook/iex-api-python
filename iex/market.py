@@ -45,6 +45,12 @@ class market:
                 if key in DATE_FIELDS:
                     result[key] = date_apply_func(val)
         if self.output_format =='dataframe':
+            if url == 'previous':
+                # Reorient previous result.
+                result = pd.DataFrame.from_dict(result).transpose().reset_index()
+                cols = ['symbol'] + [x for x in result.columns if x != 'symbol' and x != 'index']
+                result = result.reindex(cols, axis=1)
+                return result
             return pd.DataFrame.from_dict(result)
 
     def threshold_securities(self, date=None):
@@ -54,7 +60,7 @@ class market:
 
     def short_interest(self, date=None):
         date = parse_date(date)
-        url = f"threshold-securities/{date}" if date else "threshold-securities"
+        url = f"short_interest/{date}" if date else "short_interest"
         return self._get(url)
 
     # List Items
