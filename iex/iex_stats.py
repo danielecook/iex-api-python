@@ -1,6 +1,7 @@
 import pandas as pd
 import requests
 import re
+from iex.utils import validate_output_format
 
 
 BASE_URL = "https://api.iextrading.com/1.0"
@@ -14,7 +15,7 @@ class stats:
                 symbols - a list of symbols.
                 format - dataframe (pandas) or json
         """
-        self.output_format = output_format
+        self.output_format = validate_output_format(output_format)
 
     def _get(self, path, params={}):
         request_url = f"{BASE_URL}/stats/{path}"

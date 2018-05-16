@@ -15,6 +15,7 @@ from pandas import Series
 from iex.utils import (parse_date,
                        validate_date_format,
                        validate_range_set,
+                       validate_output_format,
                        timestamp_to_datetime,
                        timestamp_to_isoformat)
 from iex.constants import (BASE_URL,
@@ -39,9 +40,7 @@ class batch:
         self.symbols = symbols
         self.symbols_list = ','.join(symbols)
         self.date_format = validate_date_format(date_format)
-        if output_format not in ['dataframe', 'json']:
-            raise ValueError("batch format must be either 'dataframe' or 'json")
-        self.output_format = format
+        self.output_format = validate_output_format(output_format)
 
     def _get(self, _type, params={}):
         request_url = BASE_URL + '/stock/market/batch'

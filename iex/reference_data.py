@@ -1,10 +1,8 @@
 import pandas as pd
 import requests
-import datetime
-import arrow
-
-
-BASE_URL = "https://api.iextrading.com/1.0"
+from iex.utils import (parse_date,
+                       validate_output_format)
+from iex.constants import BASE_URL
 
 
 class reference:
@@ -15,7 +13,7 @@ class reference:
                 symbols - a list of symbols.
                 format - dataframe (pandas) or json
         """
-        self.output_format = output_format
+        self.output_format = validate_output_format(output_format)
 
     def _get(self, path):
         request_url = f"{BASE_URL}/ref-data/{path}"
@@ -35,15 +33,22 @@ class reference:
         return self._get("symbols")
 
     def iex_corporate_actions(self, date=None):
-        if date:
-            url = f"daily-list/corporate-actions/{range}"
-        else:
-            url = "daily-list/corporate-actions"
+        date = parse_date(date)
+        url = f"daily-list/corporate-actions/{date}" if date else "daily-list/corporate-actions"
         return self._get(url)
 
-    def iex_dividends(self):
-        pass
+    def iex_dividends(self, date=None):
+        date = parse_date(date)
+        url = f"daily-list/dividends/{date}" if date else "daily-list/dividends"
 
-r = reference()
+        return self._get(url)
 
-#print(r.symbols())
+    def iex_next_day_ex_date(self, date=None):
+        date = parse_date(date)
+        url = f"daily-list/next-day-ex-date/{date}" if date else "daily-list/next-day-ex-date"
+        return self._get(url)
+
+    def iex_listed_symbol_directory(self, date=None):
+        date = parse_date(date)
+        url = f"daily-list/symbol-directory/{date}" if date else "daily-list/symbol-directory"
+        return self._get(url)
