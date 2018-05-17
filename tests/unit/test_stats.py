@@ -19,7 +19,7 @@ def test_records():
 
 def test_historical_summary():
     assert stats.historical_summary().empty == False
-    assert stats.historical_summary(date='20170517').empty == False
+    assert stats.historical_summary(date='201705').empty == False
 
 def test_historical_daily():
     assert stats.historical_daily().empty == False

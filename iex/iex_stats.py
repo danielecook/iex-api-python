@@ -1,5 +1,6 @@
-import pandas as pd
+import re
 import requests
+import pandas as pd
 
 from iex.utils import (parse_date,
                        convert_pandas_datetimes,
@@ -75,7 +76,7 @@ class iex_stats:
         if date and last:
             raise ValueError("Can only supply date or last; not both")
         if date:
-            if len(date) != 6:
+            if not bool(re.match(date, r"[0-9]{6}")):
                 raise ValueError("Must specify date as YYYYMM")
             params = {'date': date}
         elif last:
@@ -86,7 +87,3 @@ class iex_stats:
 
     def __repr__(self):
         return f"<iex_stats>"
-
-
-s = iex_stats(date_format='datetime')
-print(s.recent())
