@@ -25,11 +25,13 @@ def convert_pandas_datetimes(df, date_format):
     """
     date_field_conv = [x for x in df.columns if x in DATE_FIELDS]
     if date_field_conv:
+        date_apply_func = None
         if date_format == 'datetime':
             date_apply_func = timestamp_to_datetime
         elif date_format == 'isoformat':
             date_apply_func = timestamp_to_isoformat
-        df[date_field_conv] = df[date_field_conv].applymap(date_apply_func)
+        if date_apply_func:
+            df[date_field_conv] = df[date_field_conv].applymap(date_apply_func)
     return df
 
 

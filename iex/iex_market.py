@@ -90,6 +90,3 @@ class iex_market:
     def __repr__(self):
         return f"<iex_market>"
 
-iexm = iex_market(symbols = ['F','SNAP'], date_format = 'datetime')
-print(iexm.tops())
-

@@ -1,31 +1,54 @@
 import pandas as pd
 import requests
-import re
-from iex.utils import validate_output_format
+
+from iex.utils import (parse_date,
+                       convert_pandas_datetimes,
+                       validate_date_format,
+                       validate_range_set,
+                       validate_output_format,
+                       timestamp_to_datetime,
+                       timestamp_to_isoformat)
+
+from iex.constants import (BASE_URL,
+                           CHART_RANGES,
+                           RANGES,
+                           DATE_FIELDS)
 
 
-BASE_URL = "https://api.iextrading.com/1.0"
+class iex_stats:
 
-
-class stats:
-
-    def __init__(self, output_format='dataframe'):
-        """
-            Args:
-                symbols - a list of symbols.
-                format - dataframe (pandas) or json
-        """
+    def __init__(self, date_format='timestamp', output_format='dataframe'):
         self.output_format = validate_output_format(output_format)
+        self.date_format = validate_date_format(date_format)
 
-    def _get(self, path, params={}):
-        request_url = f"{BASE_URL}/stats/{path}"
+    def _get(self, url, params={}):
+        request_url =f"{BASE_URL}/stats/{url}"
         response = requests.get(request_url, params=params)
+        print(response.url)
         if response.status_code != 200:
             raise Exception(f"{response.status_code}: {response.content.decode('utf-8')}")
-        if self.output_format == 'json':
-            return response.json()
+        result = response.json()
+
+        # timestamp conversion
+        if type(result) == dict and self.date_format:
+            if self.date_format == 'datetime':
+                date_apply_func = timestamp_to_datetime
+            elif self.date_format == 'isoformat':
+                date_apply_func = timestamp_to_isoformat
+
+            for key, val in result.items():
+                if key in DATE_FIELDS:
+                    result[key] = date_apply_func(val)
+
+        if self.output_format == 'dataframe':
+            result = pd.DataFrame.from_dict(result)
+            # Transpose certain datasets
+            if url in ['intraday', 'records']:
+                result = result.transpose()
+            result = convert_pandas_datetimes(result, self.date_format)
+            return result
         else:
-            return pd.DataFrame.from_dict(response.json())
+            return result
 
     def intraday(self):
         return self._get("intraday")
@@ -36,28 +59,34 @@ class stats:
     def records(self):
         return self._get("records")
 
-    def historical_summary(self, date=""):
-        params = {}
-        date_match = re.match('[0-9]{6}', str(date))
-        if date and not date_match:
-            raise ValueError("Date incorrectly specified. Must match YYYYMM")
-        if date_match:
-            params.update({'date': date})
-        return self._get("historical", params)
+    def historical_summary(self, date=None):
+        # Test that valid date is supplied.
+        if date:
+            if len(date) != 6:
+                raise ValueError("Must specify date as YYYYMM")
+            parse_date(str(date) + "01")
+            params = {'date': date}
+        else:
+            params = {}
+        return self._get("historical", params=params)
 
-    def historical_daily(self, last, date=""):
+    def historical_daily(self, date=None, last=None):
         params = {}
-        date_match = re.match('[0-9]{6}', str(date))
-        # Check for input errors
-        if date and not date_match:
-            raise ValueError("Date incorrectly specified. Must match YYYYMM")
         if date and last:
-            raise ValueError("Cannot specify last and date parameters")
-        if not isinstance(last, int):
-            raise ValueError("last must be specified as an integer.")
-        if date_match:
-            params.update({'date': date})
+            raise ValueError("Can only supply date or last; not both")
+        if date:
+            if len(date) != 6:
+                raise ValueError("Must specify date as YYYYMM")
+            params = {'date': date}
         elif last:
-            params.update({'last': last})
-        return self._get("historical/daily", params)
+            if not 0 < last <= 90:
+                raise ValueError("last must be between 1 and 90")
+            params = {'last': last}
+        return self._get("historical/daily", params=params)
 
+    def __repr__(self):
+        return f"<iex_stats>"
+
+
+s = iex_stats(date_format='datetime')
+print(s.recent())
