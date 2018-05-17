@@ -30,32 +30,10 @@ class market:
         else:
             request_url =f"{BASE_URL}/stock/market/{url}"
         response = requests.get(request_url, params=params)
-        print(response.url)
+        
         if response.status_code != 200:
             raise Exception(f"{response.status_code}: {response.content.decode('utf-8')}")
         result = response.json()
-
-        # timestamp conversion
-        if type(result) == dict and self.date_format:
-            if self.date_format == 'datetime':
-                date_apply_func = timestamp_to_datetime
-            elif self.date_format == 'isoformat':
-                date_apply_func = timestamp_to_isoformat
-
-            for key, val in result.items():
-                if key in DATE_FIELDS:
-                    result[key] = date_apply_func(val)
-
-        # Convert columns with unix timestamps if specified
-        if self.date_format:
-            convert_pandas_datetimes()
-            date_field_conv = [x for x in result.columns if x in DATE_FIELDS]
-            if date_field_conv:
-                if self.date_format == 'datetime':
-                    date_apply_func = timestamp_to_datetime
-                elif self.date_format == 'isoformat':
-                    date_apply_func = timestamp_to_isoformat
-                result[date_field_conv] = result[date_field_conv].applymap(date_apply_func)
 
         if self.output_format =='dataframe':
             if url == 'previous':
@@ -63,9 +41,14 @@ class market:
                 result = pd.DataFrame.from_dict(result).transpose().reset_index()
                 cols = ['symbol'] + [x for x in result.columns if x != 'symbol' and x != 'index']
                 result = result.reindex(cols, axis=1)
+                # previous has no date cols.
+                return result
+            
+            result = pd.DataFrame.from_dict(result)
             if self.date_format:
                 result = convert_pandas_datetimes(result, self.date_format)
-            return pd.DataFrame.from_dict(result)
+            return result
+
 
     def threshold_securities(self, date=None):
         date = parse_date(date)
