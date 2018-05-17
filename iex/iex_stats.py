@@ -73,13 +73,13 @@ class iex_stats:
 
     def historical_daily(self, date=None, last=None):
         params = {}
-        if date and last:
+        if date is not None and last is not None:
             raise ValueError("Can only supply date or last; not both")
-        if date:
+        if date is not None:
             if not bool(re.match(r"[0-9]{6}", date)):
                 raise ValueError("Must specify date as YYYYMM")
             params = {'date': date}
-        elif last:
+        elif last is not None:
             if not 0 < last <= 90:
                 raise ValueError("last must be between 1 and 90")
             params = {'last': last}

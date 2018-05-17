@@ -31,4 +31,4 @@ def test_historical_daily():
     with raises(ValueError):
         stats.historical_daily(last=0)
     with raises(ValueError):
-        stats.historical(date="not_a_date")
+        stats.historical_daily(date="not_a_date")
