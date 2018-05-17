@@ -29,7 +29,7 @@ Below are the methods that can be invoked with a `reference` object. Beneath the
 
 ### `symbols()`
 
-[IEX API - Book <i class="material-icons md-16">
+[IEX API - symbols <i class="material-icons md-16">
 open_in_new
 </i>](https://iextrading.com/developer/docs/#symbols)
 

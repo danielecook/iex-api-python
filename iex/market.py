@@ -1,6 +1,7 @@
 import pandas as pd
 import requests
 from iex.utils import (parse_date,
+                       convert_pandas_datetimes,
                        validate_date_format,
                        validate_range_set,
                        validate_output_format,
@@ -44,13 +45,26 @@ class market:
             for key, val in result.items():
                 if key in DATE_FIELDS:
                     result[key] = date_apply_func(val)
+
+        # Convert columns with unix timestamps if specified
+        if self.date_format:
+            convert_pandas_datetimes()
+            date_field_conv = [x for x in result.columns if x in DATE_FIELDS]
+            if date_field_conv:
+                if self.date_format == 'datetime':
+                    date_apply_func = timestamp_to_datetime
+                elif self.date_format == 'isoformat':
+                    date_apply_func = timestamp_to_isoformat
+                result[date_field_conv] = result[date_field_conv].applymap(date_apply_func)
+
         if self.output_format =='dataframe':
             if url == 'previous':
                 # Reorient previous result.
                 result = pd.DataFrame.from_dict(result).transpose().reset_index()
                 cols = ['symbol'] + [x for x in result.columns if x != 'symbol' and x != 'index']
                 result = result.reindex(cols, axis=1)
-                return result
+            if self.date_format:
+                result = convert_pandas_datetimes(result, self.date_format)
             return pd.DataFrame.from_dict(result)
 
     def threshold_securities(self, date=None):

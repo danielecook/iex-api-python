@@ -1,9 +1,15 @@
 # IEX-API-Python
 
-Welcome to the documentation for `iex-api-python`. This python module is a wrapper for the [IEX API](https://iextrading.com/developer/docs/#getting-started), and is designed to closely map to the organization of the original API. The goal is to avoid recreating the excellent API documentation that already exists, and only to provide additional details where new functionality has been added. A few examples of the additional functionality are:
+### Summary 
 
-* Batch queries are returned as Pandas Dataframes.
-* Built-in support for websockets.
+The `iex-api-python` module is a wrapper for the [IEX API](https://iextrading.com/developer/docs/#getting-started), and is designed to closely map to the organization of the original API while adding functionality. A few examples of the additional functionality are:
 
-!! Important
-    One notable difference between the Python module and the API is the use of the `format` parameter. For many of the API calls it is possible to return a CSV. However, the `iex-api-python` module will in these cases generate a Pandas DataFrame. The DataFrame can be exported as a CSV if desired. Alternatively, if you prefer to retrieve the json-to-python-dictionary object you can set an argument when creating a query object: `output_format = 'json'`.
+* Many queries are returned as [Pandas Dataframes](https://pandas.pydata.org/).
+* Built-in support for websockets connections.
+* Option to format timestamps as datetime objects or ISO-dates.
+
+Before using __IEX-API-Python__ and the __IEX API__ you should read the [API terms of use](https://iextrading.com/api-terms/) and review the [documentation](https://iextrading.com/developer/docs/).
+
+### Organization
+
+The `IEX-API-Python` module is designed to map closely to the API from IEX. For many of the API calls, the resulting dataset is better represented in a tabular format. For these calls, data are returned as a [pandas.DataFrame](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html).

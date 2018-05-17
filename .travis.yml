@@ -30,3 +30,9 @@ deploy:
     password: $PYPI
     on:
       branch: master
+  - provider: releases
+    skip_cleanup: true
+    overwrite: true
+    api_key: $GH_TOKEN
+    on:
+      tags: true

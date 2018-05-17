@@ -2,6 +2,7 @@ import re
 import arrow
 import datetime
 from dateutil.parser import parse
+from iex.constants import DATE_FIELDS
 
 
 def timestamp_to_datetime(timestamp):
@@ -16,6 +17,21 @@ def timestamp_to_isoformat(timestamp):
         Converts a unix timestamp to datetime
     """
     return arrow.get(int(timestamp) / 1000.0).isoformat()
+
+
+def convert_pandas_datetimes(df, date_format):
+    """
+        Converts columns in pandas dataframe
+    """
+    date_field_conv = [x for x in df.columns if x in DATE_FIELDS]
+    if date_field_conv:
+        if date_format == 'datetime':
+            date_apply_func = timestamp_to_datetime
+        elif date_format == 'isoformat':
+            date_apply_func = timestamp_to_isoformat
+        df[date_field_conv] = df[date_field_conv].applymap(date_apply_func)
+    return df
+
 
 
 
