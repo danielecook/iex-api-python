@@ -32,3 +32,12 @@ def test_historical_daily():
         stats.historical_daily(last=0)
     with raises(ValueError):
         stats.historical_daily(date="not_a_date")
+
+
+def test_error():
+    with raises(Exception):
+        stats._get("not_a_url")
+
+def test_print():
+    print(stats)
+
