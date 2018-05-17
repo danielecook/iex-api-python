@@ -2,6 +2,8 @@
 
 # IEX-API-Python - [Documentation](http://www.danielecook.com/iex-api-python/stocks/)
 
+![IEX-API-Python Logo](docs/iex_logo.png)
+
 ![under construction](https://countspooky.neocities.org/construction.gif)
 
 This module is currently being actively developed. Feedback is welcomed.
