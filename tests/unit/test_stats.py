@@ -20,6 +20,8 @@ def test_records():
 def test_historical_summary():
     assert stats.historical_summary().empty == False
     assert stats.historical_summary(date='201705').empty == False
+    with raises(ValueError):
+        stats.historical_summary(date="not_a_date", last=0)
 
 def test_historical_daily():
     assert stats.historical_daily().empty == False
@@ -39,5 +41,5 @@ def test_error():
         stats._get("not_a_url")
 
 def test_print():
-    print(stats)
+    assert iex_stats().__repr__() == '<iex_stats>'
 
