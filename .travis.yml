@@ -18,10 +18,15 @@ after_success:
   - mkdocs build
 
 deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GH_TOKEN
-  local_dir: site
-  edge: true
-  on:
-    branch: master
+  - provider: pages
+    skip_cleanup: true
+    github_token: $GH_TOKEN
+    local_dir: site
+    edge: true
+    on:
+      branch: master
+  provider: pypi
+    user: danielecook
+    password: $PYPI
+    on:
+      branch: master

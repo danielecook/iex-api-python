@@ -1,8 +1,8 @@
 import setuptools
-
+from iex import version
 
 setuptools.setup(name='iex-api-python',
-                 version=1.0,
+                 version=version,
                  description='Fetch data from the IEX API',
                  long_description=open('README.md').read().strip(),
                  author='Daniel E. Cook',
@@ -10,6 +10,7 @@ setuptools.setup(name='iex-api-python',
                  url='http://www.github.com/danielecook/iex-api-python',
                  py_modules=['iex'],
                  install_requires=[],
+                 keywords=['finance', 'stock', 'market', 'market-data', 'iex', 'api'],
                  license='MIT License',
                  zip_safe=False,
                  keywords='IEX API finance stock symbol')
