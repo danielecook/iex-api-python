@@ -2,8 +2,6 @@
 
 # IEX-API-Python - [Documentation](http://www.danielecook.com/iex-api-python/stocks/)
 
-__Python >=3.6__
-
 ![under construction](https://countspooky.neocities.org/construction.gif)
 
 This module is currently being actively developed. Feedback is welcomed.
@@ -14,9 +12,27 @@ The `iex-api-python` module is a wrapper for the [IEX API](https://iextrading.co
 
 * Many queries are returned as [Pandas Dataframes](https://pandas.pydata.org/).
 * Built-in support for websockets connections.
-* Option to format timestamps as datetime objects or ISO-dates.
+* Option to format timestamps as datetime objects or ISO format.
 
-Before using __IEX-API-Python__ and the __IEX API__ you should read the [API terms of use](https://iextrading.com/api-terms/) and review the [documentation](https://iextrading.com/developer/docs/).
+### Installation
+
+* __Python >=3.6__
+
+``` bash
+pip install iex-api-python
+```
+
+### Getting Started
+
+From the [API documenation](https://iextrading.com/developer/docs/#getting-started):
+
+    The IEX API is a set of services designed for developers and engineers. It can be used to build high-quality apps and services. We’re always working to improve the IEX API. Please check back for enhancements and improvements.
+
+* [Read the terms](https://iextrading.com/api-terms/).
+* [Read the manual](https://iextrading.com/developer/docs/#market-data) and start building.
+* [Attribute properly](https://iextrading.com/developer/docs/#attribution).
+
+**The API terms apply to the use of this module, as does the requirement to properly attribute the use of IEX data.**
 
 ### Organization
 
@@ -41,7 +57,7 @@ ref.symbols() # Returns a Pandas Dataframe of all stock symbols, names, and more
 3       AAC  2018-05-16   9169       True
 ```
 
-__Get a stocks price__
+__Get a stock price__
 
 ``` python
 from iex import stock
