@@ -63,7 +63,7 @@ class iex_stats:
     def historical_summary(self, date=None):
         # Test that valid date is supplied.
         if date:
-            if len(date) != 6:
+            if not bool(re.match(r"[0-9]{6}", date)):
                 raise ValueError("Must specify date as YYYYMM")
             parse_date(str(date) + "01")
             params = {'date': date}
@@ -76,7 +76,7 @@ class iex_stats:
         if date and last:
             raise ValueError("Can only supply date or last; not both")
         if date:
-            if not bool(re.match(date, r"[0-9]{6}")):
+            if not bool(re.match(r"[0-9]{6}", date)):
                 raise ValueError("Must specify date as YYYYMM")
             params = {'date': date}
         elif last:

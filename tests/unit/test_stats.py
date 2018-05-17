@@ -27,6 +27,8 @@ def test_historical_daily():
     assert len(stats.historical_daily(last=20).index) == 20
     # Test last out of range.
     with raises(ValueError):
+        stats.historical_daily(date="201704", last=0)
+    with raises(ValueError):
         stats.historical_daily(last=0)
     with raises(ValueError):
         stats.historical(date="not_a_date")
