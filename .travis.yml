@@ -30,6 +30,7 @@ deploy:
     password: $PYPI
     on:
       branch: master
+      tags: true
   - provider: releases
     skip_cleanup: true
     overwrite: true
