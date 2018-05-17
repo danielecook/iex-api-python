@@ -28,7 +28,7 @@ To illustrate a few things you can do with `iex-api-python`, take a look at the 
 
 __Fetch all stock symbols__
 
-```
+``` python
 from iex import reference
 ref = reference()
 ref.symbols() # Returns a Pandas Dataframe of all stock symbols, names, and more.
@@ -43,7 +43,7 @@ ref.symbols() # Returns a Pandas Dataframe of all stock symbols, names, and more
 
 __Get a stocks price__
 
-```
+``` python
 from iex import stock
 stock("F").price()
 ```
@@ -52,7 +52,7 @@ stock("F").price()
 ```
 
 __Get a stocks price for the last year__
-```
+``` python
 from iex import stock
 stock("F").chart_table(range="1y")
 ```
@@ -67,5 +67,3 @@ stock("F").chart_table(range="1y")
 6   -0.084539        0.001830         -0.814  10.2948  2017-05-24  10.3888
 ...
 ```
-
-__Fetch 
