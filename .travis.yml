@@ -25,7 +25,7 @@ deploy:
     edge: true
     on:
       branch: master
-  provider: pypi
+  - provider: pypi
     user: danielecook
     password: $PYPI
     on:
