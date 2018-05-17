@@ -14,7 +14,7 @@ pages:
   - Stock: stocks.md
   - Batch: batch.md
   - Reference Data: reference_data.md
-  - IEX Stats: stats.md
+  - IEX Stats: iex_stats.md
   - Markets: market.md
 
 repo_url: https://github.com/danielecook/iex-api-python

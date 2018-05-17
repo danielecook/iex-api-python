@@ -2,6 +2,8 @@
 
 ![IEX-API-Python Logo](iex_logo.png)
 
+[![Build Status](https://travis-ci.org/danielecook/iex-api-python.svg?branch=master)](https://travis-ci.org/danielecook/iex-api-python) [![Coverage Status](https://coveralls.io/repos/github/danielecook/iex-api-python/badge.svg)](https://coveralls.io/github/danielecook/iex-api-python)
+
 ### Summary
 
 The `iex-api-python` module is a wrapper for the [IEX API](https://iextrading.com/developer/docs/#getting-started), and is designed to closely map to the organization of the original API while adding functionality. A few examples of the additional functionality are:

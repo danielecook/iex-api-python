@@ -25,7 +25,6 @@ class iex_stats:
     def _get(self, url, params={}):
         request_url =f"{BASE_URL}/stats/{url}"
         response = requests.get(request_url, params=params)
-        print(response.url)
         if response.status_code != 200:
             raise Exception(f"{response.status_code}: {response.content.decode('utf-8')}")
         result = response.json()
