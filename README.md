@@ -26,7 +26,7 @@ pip install iex-api-python
 
 From the [API documenation](https://iextrading.com/developer/docs/#getting-started):
 
-    The IEX API is a set of services designed for developers and engineers. It can be used to build high-quality apps and services. We’re always working to improve the IEX API. Please check back for enhancements and improvements.
+> The IEX API is a set of services designed for developers and engineers. It can be used to build high-quality apps and services. We’re always working to improve the IEX API. Please check back for enhancements and improvements.
 
 * [Read the terms](https://iextrading.com/api-terms/).
 * [Read the manual](https://iextrading.com/developer/docs/#market-data) and start building.
