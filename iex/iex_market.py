@@ -1,5 +1,6 @@
-import pandas as pd
+import json
 import requests
+import pandas as pd
 from iex.utils import (parse_date,
                        validate_date_format,
                        validate_range_set,
@@ -7,30 +8,57 @@ from iex.utils import (parse_date,
                        timestamp_to_datetime,
                        timestamp_to_isoformat)
 
-from iex.constants import (BASE_URL,
-                           CHART_RANGES,
+from iex.constants import (CHART_RANGES,
                            RANGES,
-                           DATE_FIELDS)
+                           DATE_FIELDS,
+                           BASE_URL,
+                           BASE_SIO_URL,
+                           BASE_SIO_VERSION)
+
+from socketIO_client_nexus import (SocketIO,
+                                   SocketIONamespace)
+
+class feed_handler(SocketIONamespace):
+    
+    def on_connect(self):
+        print("connected")
+
+    def on_disconnect(self):
+        print("disconnected")
+
+    def on_message(self, msg):
+        data = json.loads(msg)
+        print(data)
+
+
 
 class iex_market:
 
-    def __init__(self, date_format='timestamp', output_format='dataframe'):
+    def __init__(self, symbols = None, socket_handler = None, date_format='timestamp', output_format='dataframe'):
         """
             Args:
+                socket_handler - Function for handling socket feed.
                 date_format - Converts dates
                 output_format - dataframe (pandas) or json
+
         """
+        self.symbols = symbols
+        self.socket_handler = socket_handler
         self.date_format = validate_date_format(date_format)
         self.output_format = validate_output_format(output_format)
 
 
+    def _socket(self):
+        socket = SocketIO('https://ws-api.iextrading.com', 443)
+        namespace = socket.define(feed_handler, "/1.0/tops")
+        symbols = "snap"
+        namespace.emit('subscribe', 'firehose')
+        socket.wait()
+
+
     def _get(self, url, params={}):
-        if not url:
-            request_url = f"{BASE_URL}/market"
-        else:
-            request_url =f"{BASE_URL}/stock/market/{url}"
-        response = requests.get(request_url, params=params)
-        print(response.url)
+        request_url =f"{BASE_URL}"
+        response = requests.get(f"{request_url}/{url}", params=params)
         if response.status_code != 200:
             raise Exception(f"{response.status_code}: {response.content.decode('utf-8')}")
         result = response.json()
@@ -45,6 +73,7 @@ class iex_market:
             for key, val in result.items():
                 if key in DATE_FIELDS:
                     result[key] = date_apply_func(val)
+        
         if self.output_format =='dataframe':
             if url == 'previous':
                 # Reorient previous result.
@@ -54,7 +83,13 @@ class iex_market:
                 return result
             return pd.DataFrame.from_dict(result)
 
+    def tops(self):
+        params = {'symbols', ','.join(self.symbols)} if self.symbols else {}
+        return self._get("tops")
 
     def __repr__(self):
         return f"<iex_market>"
+
+iexm = iex_market(symbols = ['F','SNAP'], date_format = 'datetime')
+print(iexm.tops())
 

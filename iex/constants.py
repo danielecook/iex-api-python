@@ -8,6 +8,7 @@ Static variables (constants)
 """
 
 BASE_URL = "https://api.iextrading.com/1.0"
+BASE_SIO_URL, BASE_SIO_VERSION = "https://ws-api.iextrading.com", "1.0"
 CHART_RANGES = ['', '5y', '2y', '1y',
                 'ytd', '6m', '3m',
                 '1m', '1d', 'date',
@@ -19,4 +20,6 @@ DATE_FIELDS = ['openTime',
                'latestUpdate',
                'iexLastUpdated',
                'delayedPriceTime',
-               'processedTime']
+               'processedTime',
+               'lastSaleTime',
+               'lastUpdated']
