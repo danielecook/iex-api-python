@@ -60,7 +60,7 @@ class market:
 
     def short_interest(self, date=None):
         date = parse_date(date)
-        url = f"short_interest/{date}" if date else "short_interest"
+        url = f"short-interest/{date}" if date else "short-interest"
         return self._get(url)
 
     # List Items

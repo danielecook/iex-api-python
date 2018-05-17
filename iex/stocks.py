@@ -75,9 +75,7 @@ class stock:
         # date match
         date_match = re.match('^[0-9]{8}$', range)
 
-        if type(range) == int:
-            url = f"chart/date/{range}"
-        elif date_match:
+        if date_match:
             range = parse_date(range)
             url = f"chart/date/{range}"
         else:

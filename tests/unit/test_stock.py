@@ -1,10 +1,14 @@
 import datetime
 import re
 from pytest import raises
-from tests import *
-from tests.helpers import *
 
 from iex import stock
+
+
+def test_error():
+    aapl = stock("AAPL")
+    with raises(Exception):
+        aapl._get("not_a_url")
 
 
 def test_stock_book():
@@ -14,18 +18,19 @@ def test_stock_book():
 
 def test_stock_chart():
     tsla = stock("TSLA")
-    assert tsla.chart(range='20180514')[0]['date'] == '20180514'
+    # Sometimes these are returned as empty arrays; so don't 
+    # do much testing for now. Appears to be IEX bug.
+    tsla.chart(range='20180514')
+    tsla.chart(range='1d', chartReset=True) # Returns nothing?
+    tsla.chart(range='1d', chartReset=False)
+    tsla.chart(range='1d', chartSimplify=True)
+    tsla.chart(range='1m', chartInterval=10)
 
-
-def test_chart_table():
-    msft = stock("MSFT")
-    msft_chart = msft.chart_table()
-    assert msft_chart.empty == False
 
 
 def test_chart_range_error():
     msft = stock("MSFT")
-    with pytest.raises(ValueError):
+    with raises(ValueError):
         msft.chart(range="not_a_real_range")
 
 
@@ -45,16 +50,9 @@ def test_datetime_format_as_datetime():
     assert type(fb.delayed_quote().get("processedTime")) == datetime.datetime
 
 
-def test_datetime_format_as_datetime():
+def test_datetime_format_as_isoformat():
     fb = stock("FB", date_format="isoformat")
-    fb.delayed_quote()
     assert type(fb.delayed_quote().get("processedTime")) == str
-
-
-def test_dividends():
-    ibm = stock("IBM")
-    assert len(ibm.dividends()) > 0
-    assert ibm.dividends_table().empty is False
 
 
 def test_earnings():
@@ -62,10 +60,25 @@ def test_earnings():
     assert type(ibm.earnings()) == dict
 
 
-def news():
+def test_tables():
+    ibm = stock("IBM")
+    assert ibm.chart_table().empty == False
+    assert ibm.dividends_table().empty == False
+    assert ibm.effective_spread_table().empty == False
+    assert ibm.financials_table().empty == False
+    assert ibm.volume_by_venue_table().empty == False
+
+
+def test_stats():
+    ibm = stock("IBM")
+    assert ibm.stats().get("companyName") == "International Business Machines Corporation"
+
+
+def test_news():
     ibm = stock("IBM")
     assert len(ibm.news(last=1)) == 1
     assert len(ibm.news()) == 10
+
 
 def test_logo():
     ibm = stock("IBM")
@@ -74,4 +87,10 @@ def test_logo():
 
 def test_quote():
     amzn = stock("amzn")
+    assert bool(amzn.quote())
+
+
+def test_ohlc():
+    ibm = stock("IBM")
+    assert bool(ibm.ohlc().get('open'))
 
