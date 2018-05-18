@@ -1,7 +1,6 @@
 import datetime
 import re
 from pytest import raises
-
 from iex import stock
 
 
