@@ -8,7 +8,7 @@ from iex import market
 m = market()
 
 def test_market_list():
-    assert m.mostactive().empty == False
+    m.mostactive()
     m.gainers()
     m.losers()
     m.iexvolume()
