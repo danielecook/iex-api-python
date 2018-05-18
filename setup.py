@@ -1,8 +1,7 @@
 import setuptools
-from iex import version
 
 setuptools.setup(name='iex-api-python',
-                 version=version,
+                 version="0.0.2",
                  description='Fetch data from the IEX API',
                  long_description=open('README.md').read().strip(),
                  author='Daniel E. Cook',
