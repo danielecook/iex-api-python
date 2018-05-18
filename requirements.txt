@@ -1,4 +1,4 @@
-pytoolz
+toolz
 requests
 websockets
 pandas
