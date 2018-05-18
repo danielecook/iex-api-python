@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/danielecook/iex-api-python.svg?branch=master)](https://travis-ci.org/danielecook/iex-api-python) [![Coverage Status](https://coveralls.io/repos/github/danielecook/iex-api-python/badge.svg)](https://coveralls.io/github/danielecook/iex-api-python)
+[![Build Status](https://travis-ci.org/danielecook/iex-api-python.svg?branch=master)](https://travis-ci.org/danielecook/iex-api-python) [![Coverage Status](https://coveralls.io/repos/github/danielecook/iex-api-python/badge.svg)](https://coveralls.io/github/danielecook/iex-api-python) ![Python 3.6](https://img.shields.io/badge/Python-3.6-blue.svg) [![Documentation](https://img.shields.io/badge/Documentation-!-green.svg)](http://www.danielecook.com/iex-api-python/)
 
-# IEX-API-Python - [Documentation](http://www.danielecook.com/iex-api-python/)
+# IEX-API-Python
 
 ![IEX-API-Python Logo](docs/iex_logo.png)
 

@@ -2,7 +2,6 @@ import datetime
 import re
 from pytest import raises
 from tests import *
-from tests.helpers import *
 
 from iex import iex_stats
 
