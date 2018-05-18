@@ -1,6 +1,4 @@
-toolz
 requests
-websockets
 pandas
 arrow
 socketIO-client-nexus

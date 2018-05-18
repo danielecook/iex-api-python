@@ -18,9 +18,9 @@ The `iex-api-python` module is a wrapper for the [IEX API](https://iextrading.co
 
 ### Installation
 
-* __Python >=3.6__
+_Note that you must be using Python >=3.6_
 
-``` bash
+``` shell
 pip install iex-api-python
 ```
 
