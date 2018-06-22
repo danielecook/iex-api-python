@@ -28,3 +28,7 @@ pre {
     padding: 15px;
     backgound-color: #dcdcdc;
 }
+
+code {
+    color: #3a7cff;
+}
