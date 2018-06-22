@@ -1,16 +1,10 @@
 site_name: IEX-API-Python
-theme: 
-  name: 'material'
-  palette:
-    primary: 'Amber'
-    accent: 'Light Blue'
-  logo: 'iex_logo.png'
-  favicon: 'iex_logo.png'
-  feature:
-    tabs: true
+theme:
+  name: 'readthedocs'
 
 pages:
   - Home: index.md
+  - Getting Started: getting_started.md
   - Stock: stocks.md
   - Batch: batch.md
   - Reference Data: reference_data.md
