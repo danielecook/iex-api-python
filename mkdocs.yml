@@ -28,7 +28,7 @@ markdown_extensions:
         custom_checkbox: true
     - pymdownx.tilde
 
-extra_css: [static/style.css]
+extra_css: ['https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css', static/style.css]
 extra_javascript: [static/docs_js.js]
 
 plugins:

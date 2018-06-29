@@ -14,7 +14,7 @@ __Parameters__
 
     The `stock` class is useful for returning information for a specific stock, and is designed to map closely to the organization of the __[Stocks](https://iextrading.com/developer/docs/#stocks)__ section of the IEX API.
 
-    One major difference between the stock class and the Stocks section of the IEX API is that the `stock` object is not designed to handle batch requests (multiple stocks) or market data. Batch requests are requests for data on multiple stocks at the same time. Market requests return data for all stocks or a set of stocks based on the request (_e.g._ gainers and losers). For batch requests, you should use the [`batch`](batch), and market requests should use the [`market`](market) object.
+    One major difference between the stock class and the Stocks section of the IEX API is that the `stock` object is not designed to handle batch requests or requests about the market. Batch requests are requests for data on multiple stocks at the same time. Market requests return data for all stocks or a set of stocks based on the request (_e.g._ gainers and losers). For batch requests, you should use the [`batch`](batch), and market requests should use the [`market`](market) object.
 
     Also note that the `stock` object most often returns data as a python dictionary or list - closely mimicking the returned JSON of the IEX API. However, in some cases there are additional methods (suffixed with `_table`) that will return a Pandas dataframe for convenience.
 
@@ -36,9 +36,7 @@ Below are the methods that can be invoked with a `stock` object. Beneath the lis
 
 ### `book()`
 
-[IEX API - Book <i class="material-icons md-16">
-open_in_new
-</i>](https://iextrading.com/developer/docs/#book)
+[`/stock/<symbol>/book`](https://iextrading.com/developer/docs/#book) <i class='fa fa-external-link'></i>
 
 ``` python
 from iex import stock
