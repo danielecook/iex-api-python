@@ -17,11 +17,13 @@ from tests import *
 from iex import reference
 
 def test_json_return():
-    symbols_json = reference(output_format='json').symbols()
+    reference.output_format = 'json'
+    symbols_json = reference.symbols()
     assert type(symbols_json) == list
 
 
 def test_ref_symbols():
+    reference.output_format = 'dataframe'
     assert reference.symbols().empty is False
 
 
