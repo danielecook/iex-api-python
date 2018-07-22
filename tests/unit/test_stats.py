@@ -8,8 +8,8 @@ from iex import iex_stats, IexStats
 def test_intraday():
     assert iex_stats.intraday().empty == False
 
-def test_recent():
-    assert iex_stats.recent().empty == False
+#def test_recent():
+#    assert iex_stats.recent().empty == False
 
 def test_records():
     assert iex_stats.records().empty == False
