@@ -1,6 +1,6 @@
 # Reference
 
-<div class='code-def'>reference(output_format)</div>
+<div class='code-def'>ReferenceData(output_format)</div>
 
 __Parameters__
 
@@ -8,10 +8,11 @@ __Parameters__
     - __`dataframe` (default)__ - Return result as a pandas dataframe.
     - __`json`__ - Return raw result converted from JSON to a python data structure.
 
-
-!!! note "The reference object"
+!!! note "The `reference` instance"
 
     The `reference` object is designed to map closely to the [`Reference Data`](https://iextrading.com/developer/docs/#reference-data) section of the IEX API.
+
+    You can import either `ReferenceData` (the class) or `reference` from iex. The `reference` import is an instance of `ReferenceData` that can be used without having to instantiate a new object. 
 
 ## Importing the `reference` object
 
@@ -19,12 +20,19 @@ __Parameters__
 from iex import reference
 ```
 
-----
+#### Setting the output format using the instance
 
+To update the output format, set the `output_format` attribute:
+
+```python
+reference.output_format = 'json'
+```
+
+----
 
 ## Reference Methods
 
-Below are the methods that can be invoked with a `reference_data` object. Beneath the listed method you will find a link that will take you to the corresponding IEX API documentation.
+Below are the methods that can be invoked with a `reference` object. Beneath the listed method you will find a link that will take you to the corresponding IEX API documentation.
 
 ### `symbols()`
 
