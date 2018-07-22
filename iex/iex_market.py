@@ -19,7 +19,7 @@ from socketIO_client_nexus import (SocketIO,
                                    SocketIONamespace)
 
 class feed_handler(SocketIONamespace):
-    
+
     def on_connect(self):
         print("connected")
 
@@ -32,7 +32,7 @@ class feed_handler(SocketIONamespace):
 
 
 
-class iex_market:
+class IexMarket:
 
     def __init__(self, symbols = None, socket_handler = None, date_format='timestamp', output_format='dataframe'):
         """
@@ -73,7 +73,7 @@ class iex_market:
             for key, val in result.items():
                 if key in DATE_FIELDS:
                     result[key] = date_apply_func(val)
-        
+
         if self.output_format =='dataframe':
             if url == 'previous':
                 # Reorient previous result.

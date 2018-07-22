@@ -12,7 +12,7 @@ from iex.constants import (BASE_URL,
                            RANGES,
                            DATE_FIELDS)
 
-class market:
+class Market:
 
     def __init__(self, date_format='timestamp', output_format='dataframe'):
         """
@@ -30,7 +30,7 @@ class market:
         else:
             request_url =f"{BASE_URL}/stock/market/{url}"
         response = requests.get(request_url, params=params)
-        
+
         if response.status_code != 200:
             raise Exception(f"{response.status_code}: {response.content.decode('utf-8')}")
         result = response.json()
@@ -43,7 +43,7 @@ class market:
                 result = result.reindex(cols, axis=1)
                 # previous has no date cols.
                 return result
-            
+
             result = pd.DataFrame.from_dict(result)
             if self.date_format:
                 result = convert_pandas_datetimes(result, self.date_format)
@@ -94,3 +94,6 @@ class market:
 
     def __repr__(self):
         return f"<market>"
+
+
+market = Market()

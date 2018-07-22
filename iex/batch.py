@@ -24,9 +24,9 @@ from iex.constants import (BASE_URL,
                            DATE_FIELDS)
 
 
-class batch:
+class Batch:
     """
-        The batch object is designed to fetch data
+        The Batch object is designed to fetch data
         from multiple stocks.
     """
 
@@ -43,7 +43,7 @@ class batch:
         self.output_format = validate_output_format(output_format)
 
     def _get(self, _type, params={}):
-        request_url = BASE_URL + '/stock/market/batch'
+        request_url = BASE_URL + '/stock/market/Batch'
         params.update({'symbols': self.symbols_list,
                        'types': _type})
         response = requests.get(request_url, params=params)
@@ -155,4 +155,4 @@ class batch:
         return self._get("quote", params={"displayPercent": displayPercent})
 
     def __repr__(self):
-        return f"<batch: {len(self.symbols)} symbols>"
+        return f"<Batch: {len(self.symbols)} symbols>"

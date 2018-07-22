@@ -1,48 +1,46 @@
 # Stock
 
-<div class='code-def'>stock(symbol, date_format)</div>
+<div class='code-def'>Stock(symbol, date_format)</div>
 
 __Parameters__
 
-* __`symbol`__ - A stock symbol
+* __`symbol`__ - A Stock symbol
 * __`date_format` (default: timestamp)__ - Specifies how timestamps should be should be returned. Set to one of the following:
     * __`timestamp`__ - default; Does not alter IEX API output.
     * __`datetime`__ - Datetime object.
     * __`isoformat`__ - Converts to isoformat.
 
-!!! note "The stock class"
+!!! note "The Stock class"
 
-    The `stock` class is useful for returning information for a specific stock, and is designed to map closely to the organization of the __[Stocks](https://iextrading.com/developer/docs/#stocks)__ section of the IEX API.
+    The `Stock` class is useful for returning information for a specific Stock, and is designed to map closely to the organization of the __[Stocks](https://iextrading.com/developer/docs/#Stocks)__ section of the IEX API.
 
-    One major difference between the stock class and the Stocks section of the IEX API is that the `stock` object is not designed to handle batch requests (multiple stocks) or market data. Batch requests are requests for data on multiple stocks at the same time. Market requests return data for all stocks or a set of stocks based on the request (_e.g._ gainers and losers). For batch requests, you should use the [`batch`](batch), and market requests should use the [`market`](market) object.
+    One major difference between the Stock class and the Stocks section of the IEX API is that the `Stock` object is not designed to handle batch requests or requests about the market. Batch requests are requests for data on multiple Stocks at the same time. Market requests return data for all Stocks or a set of Stocks based on the request (_e.g._ gainers and losers). For batch requests, you should use the [`batch`](batch), and market requests should use the [`market`](market) object.
 
-    Also note that the `stock` object most often returns data as a python dictionary or list - closely mimicking the returned JSON of the IEX API. However, in some cases there are additional methods (suffixed with `_table`) that will return a Pandas dataframe for convenience.
+    Also note that the `Stock` object most often returns data as a python dictionary or list - closely mimicking the returned JSON of the IEX API. However, in some cases there are additional methods (suffixed with `_table`) that will return a Pandas dataframe for convenience.
 
 
-## Creating a new `stock` object
+## Creating a new `Stock` object
 
-Provide a stock symbol to create a stock object. Stock symbols are case-insensitive.
+Provide a Stock symbol to create a Stock object. Stock symbols are case-insensitive.
 
 ``` python
-from iex import stock
-tsla = stock("tsla")
+from iex import Stock
+tsla = Stock("tsla")
 ```
 
 ----
 
 ## Stock Methods
 
-Below are the methods that can be invoked with a `stock` object. Beneath the listed method you will find a link that will take you to the corresponding IEX API documentation.
+Below are the methods that can be invoked with a `Stock` object. Beneath the listed method you will find a link that will take you to the corresponding IEX API documentation.
 
 ### `book()`
 
-[IEX API - Book <i class="material-icons md-16">
-open_in_new
-</i>](https://iextrading.com/developer/docs/#book)
+[`/Stock/<symbol>/book`](https://iextrading.com/developer/docs/#book) <i class='fa fa-external-link'></i>
 
 ``` python
-from iex import stock
-goog = stock("goog")
+from iex import Stock
+goog = Stock("goog")
 goog.book()
 ```
 
@@ -78,8 +76,8 @@ The same parameters are available as with [`chart()`](#chart).
 __Example__
 
 ``` python
-from iex import stock
-goog = stock("goog")
+from iex import Stock
+goog = Stock("goog")
 goog.chart_table(range='1d')
 ```
 
@@ -118,8 +116,8 @@ __parameters__
 __Example__
 
 ``` python
-from iex import stock
-F = stock("F")
+from iex import Stock
+F = Stock("F")
 f.dividends_table()
 ```
 
@@ -156,35 +154,35 @@ Returns a dataframe of [`effective_spread()`](#effective_spread)
 [IEX API - OHLC <i class="material-icons md-16">open_in_new</i>](https://iextrading.com/developer/docs/#ohlc)
 
 !!! info
-    If you are trying to return the official open/close for all stocks use [`market.ohlc()`](market#ohlc()).
+    If you are trying to return the official open/close for all Stocks use [`market.ohlc()`](market#ohlc()).
 
 
 ### `price()`
 
 ### `peers()`
 
-Returns a list of peer (competitor/related) companies. By default, the returned list is a set of `stock` objects. You can return a list of companies as strings by setting `as_string=True`.
+Returns a list of peer (competitor/related) companies. By default, the returned list is a set of `Stock` objects. You can return a list of companies as strings by setting `as_string=True`.
 
 __Parameters__
 
-* __`as_string` (Default: `False`)__ - If set to `True`, return the list of peers as strings rather than `stock` objects.
+* __`as_string` (Default: `False`)__ - If set to `True`, return the list of peers as strings rather than `Stock` objects.
 
 __Example__
 
 ``` python
-from iex import stock
-tsla = stock("tsla")
+from iex import Stock
+tsla = Stock("tsla")
 tsla.peers()
 ```
 
     # Output
-    [<stock:HMC>, <stock:TM>, <stock:F>, <stock:GM>]
+    [<Stock:HMC>, <Stock:TM>, <Stock:F>, <Stock:GM>]
 
 ### `previous()`
 
 [IEX API - Previous <i class="material-icons md-16">open_in_new</i>](https://iextrading.com/developer/docs/#previous)
 
-Returns the previous day adjusted stock price. The IEX API can also return the previous day prices for the entire market. For this query, use [`market.previous()`](market#previous()).
+Returns the previous day adjusted Stock price. The IEX API can also return the previous day prices for the entire market. For this query, use [`market.previous()`](market#previous()).
 
 !!! info
     If you are trying to return the previous days market data, use [`market.previous()`](market#previous()).
@@ -194,12 +192,12 @@ Returns the previous day adjusted stock price. The IEX API can also return the p
 
 [IEX API - Price <i class="material-icons md-16">open_in_new</i>](https://iextrading.com/developer/docs/#price)
 
-Returns the stock price.
+Returns the Stock price.
 
 __Example__
 
 ``` python
-tsla = stock("TSLA")
+tsla = Stock("TSLA")
 tsla.price()
 ```
 
