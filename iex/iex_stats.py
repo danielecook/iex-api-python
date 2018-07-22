@@ -16,7 +16,7 @@ from iex.constants import (BASE_URL,
                            DATE_FIELDS)
 
 
-class IexStats:
+class iex_stats:
 
     def __init__(self, date_format='timestamp', output_format='dataframe'):
         self.output_format = validate_output_format(output_format)
@@ -86,6 +86,3 @@ class IexStats:
 
     def __repr__(self):
         return f"<iex_stats>"
-
-
-iex_stats = IexStats()

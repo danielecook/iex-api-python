@@ -26,8 +26,8 @@ open_in_new
 __Example__
 
 ``` python
-from iex import market
-market.mostactive()
+market_list = market()
+market_list.mostactive()
 ```
 
        avgTotalVolume calculationPrice  change  changePercent    close  \
@@ -83,7 +83,8 @@ __Example__
 
 ``` python
 from iex import market
-market.previous()
+m = market()
+m.previous()
 ```
 ```
      symbol  change changePercent   close        date     high     low  \

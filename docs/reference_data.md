@@ -1,6 +1,6 @@
 # Reference
 
-<div class='code-def'>ReferenceData(output_format)</div>
+<div class='code-def'>reference(output_format)</div>
 
 __Parameters__
 
@@ -8,27 +8,20 @@ __Parameters__
     - __`dataframe` (default)__ - Return result as a pandas dataframe.
     - __`json`__ - Return raw result converted from JSON to a python data structure.
 
-!!! note "The `reference` instance"
 
-    The `reference` object is designed to map closely to the [`Reference Data`](https://iextrading.com/developer/docs/#reference-data) section of the IEX API.
+!!! note "The reference class"
 
-    You can import either `ReferenceData` (the class) or `reference` from iex. The `reference` import is an instance of `ReferenceData` that can be used without having to instantiate a new object. 
+    The `reference` class is designed to map closely to the [`Reference Data`](https://iextrading.com/developer/docs/#reference-data) section of the IEX API.
 
-## Importing the `reference` object
+## Creating a new `reference` object
 
 ``` python
 from iex import reference
-```
-
-#### Setting the output format using the instance
-
-To update the output format, set the `output_format` attribute:
-
-```python
-reference.output_format = 'json'
+ref = reference()
 ```
 
 ----
+
 
 ## Reference Methods
 
@@ -36,11 +29,14 @@ Below are the methods that can be invoked with a `reference` object. Beneath the
 
 ### `symbols()`
 
-[IEX API - symbols](https://iextrading.com/developer/docs/#symbols)
+[IEX API - symbols <i class="material-icons md-16">
+open_in_new
+</i>](https://iextrading.com/developer/docs/#symbols)
 
 ``` python
 from iex import reference
-reference.symbols()
+ref = reference()
+ref.symbols()
 ```
 
     # Output
@@ -53,7 +49,9 @@ reference.symbols()
 
 ### `iex_corporate_actions()`
 
-[IEX API - IEX Corporate Actions](https://iextrading.com/developer/docs/#iex-corporate-actions)
+[IEX API - IEX Corporate Actions <i class="material-icons md-16">
+open_in_new
+</i>](https://iextrading.com/developer/docs/#iex-corporate-actions)
 
 __Parameters__
 
@@ -61,7 +59,9 @@ __Parameters__
 
 ### `iex_dividends()`
 
-[IEX API - IEX Dividends](https://iextrading.com/developer/docs/#iex-dividends)
+[IEX API - IEX Dividends <i class="material-icons md-16">
+open_in_new
+</i>](https://iextrading.com/developer/docs/#iex-dividends)
 
 __Parameters__
 
@@ -69,7 +69,9 @@ __Parameters__
 
 ### `iex_next_day_ex_date()`
 
-[IEX API - IEX Next Day Ex Date](https://iextrading.com/developer/docs/#iex-next-day-ex-date)
+[IEX API - IEX Next Day Ex Date <i class="material-icons md-16">
+open_in_new
+</i>](https://iextrading.com/developer/docs/#iex-next-day-ex-date)
 
 __Parameters__
 
@@ -77,7 +79,9 @@ __Parameters__
 
 ### `iex_listed_symbol_directory()`
 
-[IEX API - IEX Listed Symbol Directory](https://iextrading.com/developer/docs/#iex-listed-symbol-directory)
+[IEX API - IEX Listed Symbol Directory <i class="material-icons md-16">
+open_in_new
+</i>](https://iextrading.com/developer/docs/#iex-listed-symbol-directory)
 
 __Parameters__
 

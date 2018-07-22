@@ -16,33 +16,34 @@ from tests import *
 
 from iex import reference
 
+ref = reference()
+
+
 def test_json_return():
-    reference.output_format = 'json'
-    symbols_json = reference.symbols()
+    symbols_json = reference(output_format='json').symbols()
     assert type(symbols_json) == list
 
 
 def test_ref_symbols():
-    reference.output_format = 'dataframe'
-    assert reference.symbols().empty is False
+    assert ref.symbols().empty is False
 
 
 def test_iex_corporate_actions():
-    reference.iex_corporate_actions()
+    ref.iex_corporate_actions()
 
 
 def test_iex_dividends():
-    reference.iex_dividends()
+    ref.iex_dividends()
 
 
 def test_iex_next_day_ex_date():
-    reference.iex_next_day_ex_date()
+    ref.iex_next_day_ex_date()
 
 
 def test_iex_listed_symbol_directory():
-    reference.iex_listed_symbol_directory()
+    ref.iex_listed_symbol_directory()
 
 
 def test_error():
     with raises(Exception):
-        reference._get("not_a_url")
+        ref._get("not_a_url")

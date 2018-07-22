@@ -23,12 +23,3 @@ h3 code:before {
     content: ".";
     color: #7f7f7f;
 }
-
-pre {
-    padding: 15px;
-    background-color: #dcdcdc;
-}
-
-code {
-    color: #3a7cff;
-}

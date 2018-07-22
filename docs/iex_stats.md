@@ -12,21 +12,17 @@ __Parameters__
     - __`dataframe` (default)__ - Return result as a pandas dataframe.
     - __`json`__ - Return raw result converted from JSON to a python data structure.
 
-!!! note "The `iex_stats` instance and class"
+!!! note "The iex_stats class"
 
-    `IexStats` is the class used to instantiate the `iex_stats` object. Both can be imported from the `iex` module. The `iex_stats` object can be used to fetch IEX aggregate data.
+    The `iex_stats` class creates an object that can be used to fetch IEX aggregate data.
 
 ## Creating a new `iex_stats` object
 
-```python
-from iex import IexStats
-iex_stats = IexStats()
-```
+Provide a stock symbol to create a stock object. Stock symbols are case-insensitive.
 
-__or__
-
-```
+``` python
 from iex import iex_stats
+stats = iex_stats()
 ```
 
 ----
@@ -40,8 +36,8 @@ open_in_new
 </i>](https://iextrading.com/developer/docs/#intraday)
 
 ``` python
-from iex import IexStats
-IexStats(date_format='datetime').intraday()
+from iex import iex_stats
+iex_stats(date_format='datetime').intraday()
 ```
 ```
                                    lastUpdated         value

@@ -5,7 +5,7 @@ from iex.utils import (parse_date,
 from iex.constants import BASE_URL
 
 
-class ReferenceData:
+class reference:
 
     def __init__(self, output_format='dataframe'):
         """
@@ -50,7 +50,3 @@ class ReferenceData:
         date = parse_date(date)
         url = f"daily-list/symbol-directory/{date}" if date else "daily-list/symbol-directory"
         return self._get(url)
-
-
-# Instantiate for convenience
-reference = ReferenceData()

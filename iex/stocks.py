@@ -17,7 +17,7 @@ from iex.constants import (BASE_URL,
                            DATE_FIELDS)
 
 
-class Stock:
+class stock:
 
     def __init__(self, symbol, date_format='timestamp'):
         self.symbol = symbol.upper()
@@ -114,7 +114,7 @@ class Stock:
             return pd.DataFrame.from_dict(chart_data)
         elif type(chart_result) == list:
             return pd.DataFrame.from_dict(chart_result)
-
+ 
     def company(self):
         return self._get("company")
 
@@ -157,7 +157,7 @@ class Stock:
 
     def news(self, last=10):
         if not 1 <= last <= 50:
-            raise ValueError("Last must be a value between 1 and 50.")
+            raise ValueError("Last must not be a value between 1 and 50.")
         url = f"news/last/{last}" if last else "news"
         return self._get(url)
 
