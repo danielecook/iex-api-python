@@ -48,8 +48,7 @@ __Fetch all stock symbols__
 
 ``` python
 from iex import reference
-ref = reference()
-ref.symbols() # Returns a Pandas Dataframe of all stock symbols, names, and more.
+reference.symbols() # Returns a Pandas Dataframe of all stock symbols, names, and more.
 ```
 ```
      symbol        date  iexId  isEnabled  \
@@ -62,8 +61,8 @@ ref.symbols() # Returns a Pandas Dataframe of all stock symbols, names, and more
 __Get a stock price__
 
 ``` python
-from iex import stock
-stock("F").price()
+from iex import Stock
+Stock("F").price()
 ```
 ```
 11.4
@@ -71,8 +70,8 @@ stock("F").price()
 
 __Get a stocks price for the last year__
 ``` python
-from iex import stock
-stock("F").chart_table(range="1y")
+from iex import Stock
+Stock("F").chart_table(range="1y")
 ```
 ```
        change  changeOverTime  changePercent    close        date     high  \
