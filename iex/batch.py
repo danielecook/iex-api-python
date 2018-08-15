@@ -47,7 +47,6 @@ class Batch:
         params.update({'symbols': self.symbols_list,
                        'types': _type})
         response = requests.get(request_url, params=params)
-        print(json.dumps(response.json(), indent=2))
         # Check the response
         if response.status_code != 200:
             raise Exception(f"{response.status_code}: {response.content.decode('utf-8')}")
