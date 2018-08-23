@@ -21,14 +21,13 @@ from socketIO_client_nexus import (SocketIO,
 class feed_handler(SocketIONamespace):
 
     def on_connect(self):
-        print("connected")
+        pass
 
     def on_disconnect(self):
-        print("disconnected")
+        pass
 
     def on_message(self, msg):
         data = json.loads(msg)
-        print(data)
 
 
 
