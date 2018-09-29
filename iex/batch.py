@@ -12,7 +12,8 @@ import re
 import datetime
 import json
 from pandas import Series
-from iex.utils import (parse_date,
+from iex.utils import (param_bool,
+                       parse_date,
                        validate_date_format,
                        validate_range_set,
                        validate_output_format,
