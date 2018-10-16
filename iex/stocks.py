@@ -127,7 +127,7 @@ class Stock:
                         'DIVIDEND_RANGES' has possible values in addition to a date.
         """
         validate_range_set(range, RANGES)
-        return self._get(f"chart/{range}")
+        return self._get(f"dividends/{range}")
 
     def dividends_table(self, range='1m'):
         dividends_data = self.dividends(range)
