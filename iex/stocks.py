@@ -167,7 +167,7 @@ class Stock:
         if as_string:
             return [x for x in self._get("peers")]
         else:
-            return [stock(x) for x in self._get("peers")]
+            return [Stock(x) for x in self._get("peers")]
 
     def previous(self):
         return self._get(f"previous")
