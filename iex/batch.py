@@ -12,7 +12,8 @@ import re
 import datetime
 import json
 from pandas import Series
-from iex.utils import (parse_date,
+from iex.utils import (param_bool,
+                       parse_date,
                        validate_date_format,
                        validate_range_set,
                        validate_output_format,
@@ -43,7 +44,7 @@ class Batch:
         self.output_format = validate_output_format(output_format)
 
     def _get(self, _type, params={}):
-        request_url = BASE_URL + '/stock/market/Batch'
+        request_url = BASE_URL + '/stock/market/batch'
         params.update({'symbols': self.symbols_list,
                        'types': _type})
         response = requests.get(request_url, params=params)
