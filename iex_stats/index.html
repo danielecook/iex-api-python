@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>IEX Stats - IEX-API-Python</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet">
+  <link href="../static/style.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "IEX Stats";
+    var mkdocs_page_input_path = "iex_stats.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+  <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-39176354-4', 'auto');
+      ga('send', 'pageview');
+  </script>
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> IEX-API-Python</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../getting_started/">Getting Started</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../stocks/">Stock</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../batch/">Batch</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../reference_data/">Reference Data</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">IEX Stats</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#iex-stats">IEX Stats</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#creating-a-new-iex_stats-object">Creating a new iex_stats object</a></li>
+        
+            <li><a class="toctree-l3" href="#iex-stats-methods">IEX Stats Methods</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../market/">Markets</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">IEX-API-Python</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>IEX Stats</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/danielecook/iex-api-python/edit/master/docs/iex_stats.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="iex-stats">IEX Stats<a class="headerlink" href="#iex-stats" title="Permanent link">&para;</a></h1>
+<div class='code-def'>iex_stats(date_format, output_format)</div>
+
+<p><strong>Parameters</strong></p>
+<ul>
+<li><strong><code>date_format</code> (default: timestamp)</strong> - Specifies how timestamps should be should be returned. Set to one of the following:<ul>
+<li><strong><code>timestamp</code></strong> - default; Does not alter IEX API output.</li>
+<li><strong><code>datetime</code></strong> - Datetime object.</li>
+<li><strong><code>isoformat</code></strong> - Converts to isoformat.</li>
+</ul>
+</li>
+<li><strong><code>output_format</code></strong> - The format to output. Options:<ul>
+<li><strong><code>dataframe</code> (default)</strong> - Return result as a pandas dataframe.</li>
+<li><strong><code>json</code></strong> - Return raw result converted from JSON to a python data structure.</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">The <code>iex_stats</code> instance and class</p>
+<p><code>IexStats</code> is the class used to instantiate the <code>iex_stats</code> object. Both can be imported from the <code>iex</code> module. The <code>iex_stats</code> object can be used to fetch IEX aggregate data.</p>
+</div>
+<h2 id="creating-a-new-iex_stats-object">Creating a new <code>iex_stats</code> object<a class="headerlink" href="#creating-a-new-iex_stats-object" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">iex</span> <span class="kn">import</span> <span class="n">IexStats</span>
+<span class="n">iex_stats</span> <span class="o">=</span> <span class="n">IexStats</span><span class="p">()</span>
+</pre></div>
+
+<p><strong>or</strong></p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">iex</span> <span class="kn">import</span> <span class="n">iex_stats</span>
+</pre></div>
+
+<hr />
+<h2 id="iex-stats-methods">IEX Stats Methods<a class="headerlink" href="#iex-stats-methods" title="Permanent link">&para;</a></h2>
+<h3 id="intraday"><code>intraday()</code><a class="headerlink" href="#intraday" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#intraday">IEX API - Intraday <i class="material-icons md-16">
+open_in_new
+</i></a></p>
+<p><div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">iex</span> <span class="kn">import</span> <span class="n">IexStats</span>
+<span class="n">IexStats</span><span class="p">(</span><span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;datetime&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">intraday</span><span class="p">()</span>
+</pre></div>
+<div class="codehilite"><pre><span></span>                                   lastUpdated         value
+marketShare   2018-05-17 18:32:07.535000+00:00  2.661000e-02
+notional      2018-05-17 18:32:07.472000+00:00  5.214433e+09
+routedVolume  2018-05-17 18:32:06.999000+00:00  2.245174e+07
+symbolsTraded 2018-05-17 18:32:07.472000+00:00  5.299000e+03
+volume        2018-05-17 18:32:07.472000+00:00  1.141716e+08
+</pre></div></p>
+<h3 id="recent"><code>recent()</code><a class="headerlink" href="#recent" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#recent">IEX API - Recent <i class="material-icons md-16">
+open_in_new
+</i></a></p>
+<h3 id="records"><code>records()</code><a class="headerlink" href="#records" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#records">IEX API - Records <i class="material-icons md-16">
+open_in_new
+</i></a></p>
+<h3 id="historical_summary"><code>historical_summary()</code><a class="headerlink" href="#historical_summary" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#historicaly-summary">IEX API - Historical Summary <i class="material-icons md-16">
+open_in_new
+</i></a></p>
+<h3 id="historical_daily"><code>historical_daily()</code><a class="headerlink" href="#historical_daily" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#historicaly-daily">IEX API - Historical Daily <i class="material-icons md-16">
+open_in_new
+</i></a></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../market/" class="btn btn-neutral float-right" title="Markets">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../reference_data/" class="btn btn-neutral" title="Reference Data"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/danielecook/iex-api-python/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../reference_data/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../market/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../static/docs_js.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

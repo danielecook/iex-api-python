@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Stock - IEX-API-Python</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet">
+  <link href="../static/style.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Stock";
+    var mkdocs_page_input_path = "stocks.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+  <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-39176354-4', 'auto');
+      ga('send', 'pageview');
+  </script>
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> IEX-API-Python</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../getting_started/">Getting Started</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Stock</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#stock">Stock</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#creating-a-new-stock-object">Creating a new Stock object</a></li>
+        
+            <li><a class="toctree-l3" href="#stock-methods">Stock Methods</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../batch/">Batch</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../reference_data/">Reference Data</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../iex_stats/">IEX Stats</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../market/">Markets</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">IEX-API-Python</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Stock</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/danielecook/iex-api-python/edit/master/docs/stocks.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="stock">Stock<a class="headerlink" href="#stock" title="Permanent link">&para;</a></h1>
+<div class='code-def'>Stock(symbol, date_format)</div>
+
+<p><strong>Parameters</strong></p>
+<ul>
+<li><strong><code>symbol</code></strong> - A Stock symbol</li>
+<li><strong><code>date_format</code> (default: timestamp)</strong> - Specifies how timestamps should be should be returned. Set to one of the following:<ul>
+<li><strong><code>timestamp</code></strong> - default; Does not alter IEX API output.</li>
+<li><strong><code>datetime</code></strong> - Datetime object.</li>
+<li><strong><code>isoformat</code></strong> - Converts to isoformat.</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">The Stock class</p>
+<p>The <code>Stock</code> class is useful for returning information for a specific Stock, and is designed to map closely to the organization of the <strong><a href="https://iextrading.com/developer/docs/#Stocks">Stocks</a></strong> section of the IEX API.</p>
+<p>One major difference between the Stock class and the Stocks section of the IEX API is that the <code>Stock</code> object is not designed to handle batch requests or requests about the market. Batch requests are requests for data on multiple Stocks at the same time. Market requests return data for all Stocks or a set of Stocks based on the request (<em>e.g.</em> gainers and losers). For batch requests, you should use the <a href="batch"><code>batch</code></a>, and market requests should use the <a href="market"><code>market</code></a> object.</p>
+<p>Also note that the <code>Stock</code> object most often returns data as a python dictionary or list - closely mimicking the returned JSON of the IEX API. However, in some cases there are additional methods (suffixed with <code>_table</code>) that will return a Pandas dataframe for convenience.</p>
+</div>
+<h2 id="creating-a-new-stock-object">Creating a new <code>Stock</code> object<a class="headerlink" href="#creating-a-new-stock-object" title="Permanent link">&para;</a></h2>
+<p>Provide a Stock symbol to create a Stock object. Stock symbols are case-insensitive.</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">iex</span> <span class="kn">import</span> <span class="n">Stock</span>
+<span class="n">tsla</span> <span class="o">=</span> <span class="n">Stock</span><span class="p">(</span><span class="s2">&quot;tsla&quot;</span><span class="p">)</span>
+</pre></div>
+
+<hr />
+<h2 id="stock-methods">Stock Methods<a class="headerlink" href="#stock-methods" title="Permanent link">&para;</a></h2>
+<p>Below are the methods that can be invoked with a <code>Stock</code> object. Beneath the listed method you will find a link that will take you to the corresponding IEX API documentation.</p>
+<h3 id="book"><code>book()</code><a class="headerlink" href="#book" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#book"><code>/Stock/&lt;symbol&gt;/book</code></a> <i class='fa fa-external-link'></i></p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">iex</span> <span class="kn">import</span> <span class="n">Stock</span>
+<span class="n">goog</span> <span class="o">=</span> <span class="n">Stock</span><span class="p">(</span><span class="s2">&quot;goog&quot;</span><span class="p">)</span>
+<span class="n">goog</span><span class="o">.</span><span class="n">book</span><span class="p">()</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span># Output
+{
+ &#39;quote&#39;: {...},
+ &#39;bids&#39;: [...],
+ &#39;asks&#39;: [...],
+ &#39;trades&#39;: [...],
+ &#39;systemEvent&#39;: {...}
+}
+</pre></div>
+
+
+<h3 id="chart"><code>chart()</code><a class="headerlink" href="#chart" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#chart">IEX API - Chart <i class="material-icons md-16">open_in_new</i></a></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li><strong><code>range</code> (default: 1m)</strong> - Historical adjusted market-wide data or IEX-only data. See the <a href="https://iextrading.com/developer/docs/#chart">IEX API reference</a> for further details.<ul>
+<li><code>5y</code> <code>2y</code> <code>1y</code> <code>ytd</code> <code>6m</code> <code>3m</code> <code>1m</code> <code>YYYYMMDD (date)</code> <code>dynamic</code></li>
+</ul>
+</li>
+<li><strong><code>chartReset</code> (bool; default: <code>None</code>)</strong> - 1d chart will reset at midnight instead of the default behavior of 9:30am ET.</li>
+<li><strong><code>chartSimplify</code> (bool; default: <code>None</code>)</strong> -  If <code>True</code>, runs a polyline simplification using the Douglas-Peucker algorithm. This is useful if plotting sparkline charts.</li>
+<li><strong><code>chartInterval</code> (bool: default: <code>None</code>)</strong> -  If passed, chart data will return every Nth element.</li>
+</ul>
+<h3 id="chart_table"><code>chart_table()</code><a class="headerlink" href="#chart_table" title="Permanent link">&para;</a></h3>
+<p>Returns a pandas dataframe from chart data. If <code>range=dynamic</code>, a <code>range</code> column is appended to the returned dataframe indicating whether the data is for <code>1d</code> or <code>1m</code>. See the See the <a href="https://iextrading.com/developer/docs/#chart">IEX API documentation</a> for further details.</p>
+<p><strong>Parameters</strong></p>
+<p>The same parameters are available as with <a href="#chart"><code>chart()</code></a>.</p>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">iex</span> <span class="kn">import</span> <span class="n">Stock</span>
+<span class="n">goog</span> <span class="o">=</span> <span class="n">Stock</span><span class="p">(</span><span class="s2">&quot;goog&quot;</span><span class="p">)</span>
+<span class="n">goog</span><span class="o">.</span><span class="n">chart_table</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="s1">&#39;1d&#39;</span><span class="p">)</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span># Output
+      average  changeOverTime     close      date      high  \
+0    1094.852        0.000000  1095.535  20180511  1095.535
+1      -1.000             NaN       NaN  20180511    -1.000
+2      -1.000             NaN       NaN  20180511    -1.000
+3    1093.145       -0.001559  1093.420  20180511  1093.630
+...
+</pre></div>
+
+
+<h3 id="company"><code>company()</code><a class="headerlink" href="#company" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#company">IEX API - Company <i class="material-icons md-16">open_in_new</i></a></p>
+<h3 id="delayed_quote"><code>delayed_quote()</code><a class="headerlink" href="#delayed_quote" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#delayed-quote">IEX API - Delayed Quote <i class="material-icons md-16">open_in_new</i></a></p>
+<h3 id="dividends"><code>dividends()</code><a class="headerlink" href="#dividends" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#dividends">IEX API - Dividends <i class="material-icons md-16">open_in_new</i></a></p>
+<p><strong>parameters</strong></p>
+<ul>
+<li><strong><code>range</code> (default: 1m)</strong> - Historical market data; range of data on dividends to return.</li>
+</ul>
+<h3 id="dividends_table"><code>dividends_table()</code><a class="headerlink" href="#dividends_table" title="Permanent link">&para;</a></h3>
+<p>Returns a dataframe of <a href="#dividends()"><code>dividend()</code></a></p>
+<p><strong>parameters</strong></p>
+<ul>
+<li><strong><code>range</code> (default: 1m)</strong> - Historical market data; range of data on dividends to return.</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">iex</span> <span class="kn">import</span> <span class="n">Stock</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">Stock</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">dividends_table</span><span class="p">()</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>    # Output
+    change  changeOverTime  changePercent    close        date   \
+0   0.098676        0.000000          0.887  11.2293  2018-04-16 
+1   0.000000        0.000000          0.000  11.2293  2018-04-17 
+2  -0.049338       -0.004390         -0.439  11.1800  2018-04-18 
+3  -0.220002       -0.023982         -1.968  10.9600  2018-04-19 
+4  -0.140000       -0.036449         -1.277  10.8200  2018-04-20 
+...
+</pre></div>
+
+<h3 id="earnings"><code>earnings()</code><a class="headerlink" href="#earnings" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#earnings">IEX API - Earnings <i class="material-icons md-16">open_in_new</i></a></p>
+<h3 id="effective_spread"><code>effective_spread()</code><a class="headerlink" href="#effective_spread" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#effective-spread">IEX API - Effective Spread <i class="material-icons md-16">open_in_new</i></a></p>
+<h3 id="effective_spread_table"><code>effective_spread_table()</code><a class="headerlink" href="#effective_spread_table" title="Permanent link">&para;</a></h3>
+<p>Returns a dataframe of <a href="#effective_spread"><code>effective_spread()</code></a></p>
+<h3 id="financials"><code>financials()</code><a class="headerlink" href="#financials" title="Permanent link">&para;</a></h3>
+<h3 id="financials_table"><code>financials_table()</code><a class="headerlink" href="#financials_table" title="Permanent link">&para;</a></h3>
+<h3 id="ohlc"><code>ohlc()</code><a class="headerlink" href="#ohlc" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#ohlc">IEX API - OHLC <i class="material-icons md-16">open_in_new</i></a></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>If you are trying to return the official open/close for all Stocks use <a href="market#ohlc()"><code>market.ohlc()</code></a>.</p>
+</div>
+<h3 id="price"><code>price()</code><a class="headerlink" href="#price" title="Permanent link">&para;</a></h3>
+<h3 id="peers"><code>peers()</code><a class="headerlink" href="#peers" title="Permanent link">&para;</a></h3>
+<p>Returns a list of peer (competitor/related) companies. By default, the returned list is a set of <code>Stock</code> objects. You can return a list of companies as strings by setting <code>as_string=True</code>.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li><strong><code>as_string</code> (Default: <code>False</code>)</strong> - If set to <code>True</code>, return the list of peers as strings rather than <code>Stock</code> objects.</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">iex</span> <span class="kn">import</span> <span class="n">Stock</span>
+<span class="n">tsla</span> <span class="o">=</span> <span class="n">Stock</span><span class="p">(</span><span class="s2">&quot;tsla&quot;</span><span class="p">)</span>
+<span class="n">tsla</span><span class="o">.</span><span class="n">peers</span><span class="p">()</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span><span class="err">#</span> <span class="nt">Output</span>
+<span class="cp">[</span><span class="o">&amp;</span><span class="nx nx-Member">lt</span><span class="p">;</span><span class="nx">Stock</span><span class="p">:</span><span class="nx">HMC</span><span class="o">&amp;</span><span class="nx nx-Member">gt</span><span class="p">;,</span> <span class="o">&amp;</span><span class="nx nx-Member">lt</span><span class="p">;</span><span class="nx">Stock</span><span class="p">:</span><span class="nx">TM</span><span class="o">&amp;</span><span class="nx nx-Member">gt</span><span class="p">;,</span> <span class="o">&amp;</span><span class="nx nx-Member">lt</span><span class="p">;</span><span class="nx">Stock</span><span class="p">:</span><span class="nx">F</span><span class="o">&amp;</span><span class="nx nx-Member">gt</span><span class="p">;,</span> <span class="o">&amp;</span><span class="nx nx-Member">lt</span><span class="p">;</span><span class="nx">Stock</span><span class="p">:</span><span class="nx">GM</span><span class="o">&amp;</span><span class="nx nx-Member">gt</span><span class="p">;</span><span class="cp">]</span>
+</pre></div>
+
+
+<h3 id="previous"><code>previous()</code><a class="headerlink" href="#previous" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#previous">IEX API - Previous <i class="material-icons md-16">open_in_new</i></a></p>
+<p>Returns the previous day adjusted Stock price. The IEX API can also return the previous day prices for the entire market. For this query, use <a href="market#previous()"><code>market.previous()</code></a>.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>If you are trying to return the previous days market data, use <a href="market#previous()"><code>market.previous()</code></a>.</p>
+</div>
+<h3 id="price_1"><code>price()</code><a class="headerlink" href="#price_1" title="Permanent link">&para;</a></h3>
+<p><a href="https://iextrading.com/developer/docs/#price">IEX API - Price <i class="material-icons md-16">open_in_new</i></a></p>
+<p>Returns the Stock price.</p>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="n">tsla</span> <span class="o">=</span> <span class="n">Stock</span><span class="p">(</span><span class="s2">&quot;TSLA&quot;</span><span class="p">)</span>
+<span class="n">tsla</span><span class="o">.</span><span class="n">price</span><span class="p">()</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>284.18
+</pre></div>
+
+
+<h3 id="quote"><code>quote()</code><a class="headerlink" href="#quote" title="Permanent link">&para;</a></h3>
+<h3 id="stats"><code>stats()</code><a class="headerlink" href="#stats" title="Permanent link">&para;</a></h3>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../batch/" class="btn btn-neutral float-right" title="Batch">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../getting_started/" class="btn btn-neutral" title="Getting Started"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/danielecook/iex-api-python/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../getting_started/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../batch/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../static/docs_js.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>
