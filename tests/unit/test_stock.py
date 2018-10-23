@@ -60,7 +60,7 @@ def test_earnings():
 
 
 def test_tables():
-    ibm = Stock("IBM")
+    ibm = Stock("GM")
     assert ibm.chart_table().empty == False
     assert ibm.dividends_table().empty == False
     assert ibm.effective_spread_table().empty == False
